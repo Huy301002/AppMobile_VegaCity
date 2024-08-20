@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Component/button.dart';
 
-class HomPage extends StatefulWidget {
-  const HomPage({Key? key}) : super(key: key);
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  _HomPageState createState() => _HomPageState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomPageState extends State<HomPage> {
+class _HomePageState extends State<HomePage> {
   bool isButton1Pressed = false;
   bool isButton2Pressed = false;
   bool isButton3Pressed = false;

@@ -1,5 +1,6 @@
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:rive/rive.dart';
 import 'package:flutter_application_1/View/Home_Screen.dart';
 
 class LoginPage extends StatelessWidget {
@@ -28,6 +29,17 @@ class LoginPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: <Widget>[
+            // Thêm animation Rive ở đây
+            FadeInUp(
+              duration: Duration(milliseconds: 1000),
+              child: Container(
+                height: 200, // Đặt chiều cao phù hợp
+                child: RiveAnimation.asset(
+                  'assets/animated_login_character_.riv',
+                  fit: BoxFit.contain,
+                ),
+              ),
+            ),
             Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -35,22 +47,24 @@ class LoginPage extends StatelessWidget {
                   Column(
                     children: <Widget>[
                       FadeInUp(
-                          duration: Duration(milliseconds: 1000),
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                fontSize: 30, fontWeight: FontWeight.bold),
-                          )),
+                        duration: Duration(milliseconds: 1000),
+                        child: Text(
+                          "Login",
+                          style: TextStyle(
+                              fontSize: 30, fontWeight: FontWeight.bold),
+                        ),
+                      ),
                       SizedBox(
                         height: 20,
                       ),
                       FadeInUp(
-                          duration: Duration(milliseconds: 1200),
-                          child: Text(
-                            "Login to your account",
-                            style: TextStyle(
-                                fontSize: 15, color: Colors.grey[700]),
-                          )),
+                        duration: Duration(milliseconds: 1200),
+                        child: Text(
+                          "Login to your account",
+                          style: TextStyle(
+                              fontSize: 15, color: Colors.grey[700]),
+                        ),
+                      ),
                     ],
                   ),
                   Padding(
@@ -58,62 +72,56 @@ class LoginPage extends StatelessWidget {
                     child: Column(
                       children: <Widget>[
                         FadeInUp(
-                            duration: Duration(milliseconds: 1200),
-                            child: makeInput(label: "Username")),
+                          duration: Duration(milliseconds: 1200),
+                          child: makeInput(label: "Username"),
+                        ),
                         FadeInUp(
-                            duration: Duration(milliseconds: 1300),
-                            child: makeInput(
-                                label: "Password", obscureText: true)),
+                          duration: Duration(milliseconds: 1300),
+                          child: makeInput(
+                              label: "Password", obscureText: true),
+                        ),
                       ],
                     ),
                   ),
                   FadeInUp(
-                      duration: Duration(milliseconds: 1400),
-                      child: Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 40),
-                        child: Container(
-                          padding: EdgeInsets.only(top: 3, left: 3),
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(50),
-                              border: Border(
-                                bottom: BorderSide(color: Colors.black),
-                                top: BorderSide(color: Colors.black),
-                                left: BorderSide(color: Colors.black),
-                                right: BorderSide(color: Colors.black),
-                              )),
-                          child: MaterialButton(
-                            minWidth: double.infinity,
-                            height: 50,
-                            onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => HomPage()));
-                            },
-                            color: Colors.greenAccent,
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(50)),
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                  fontWeight: FontWeight.w600, fontSize: 18),
-                            ),
+                    duration: Duration(milliseconds: 1400),
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 40),
+                      child: Container(
+                        padding: EdgeInsets.only(top: 3, left: 3),
+                        decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(50),
+                            border: Border(
+                              bottom: BorderSide(color: Colors.black),
+                              top: BorderSide(color: Colors.black),
+                              left: BorderSide(color: Colors.black),
+                              right: BorderSide(color: Colors.black),
+                            )),
+                        child: MaterialButton(
+                          minWidth: double.infinity,
+                          height: 50,
+                          onPressed: () {
+                            Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                    builder: (context) => HomePage()));
+                          },
+                          color: Colors.greenAccent,
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
                           ),
                         ),
-                      )),
+                      ),
+                    ),
+                  ),
                 ],
               ),
             ),
-            FadeInUp(
-                duration: Duration(milliseconds: 1200),
-                child: Container(
-                  height: MediaQuery.of(context).size.height / 3,
-                  decoration: BoxDecoration(
-                      image: DecorationImage(
-                          image: AssetImage('assets/background.png'),
-                          fit: BoxFit.cover)),
-                ))
           ],
         ),
       ),
