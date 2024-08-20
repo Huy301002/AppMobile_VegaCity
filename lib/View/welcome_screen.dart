@@ -6,6 +6,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0xFFD6E2EA),
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -50,19 +51,19 @@ class WelcomeScreen extends StatelessWidget {
                       duration: Duration(milliseconds: 1500),
                       child: MaterialButton(
                         minWidth: double.infinity,
-                        color: Colors.yellow,
+                        color: Colors.blue[300],
                         height: 60,
                         onPressed: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LoginPage()));
+                                  builder: (context) => LoginScreen()));
                         },
                         shape: RoundedRectangleBorder(
                             side: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(50)),
                         child: Text(
-                          "Login",
+                          "Let's get Started",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),

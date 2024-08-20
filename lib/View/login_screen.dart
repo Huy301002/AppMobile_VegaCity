@@ -1,159 +1,208 @@
-import 'package:animate_do/animate_do.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/core/component/dialog/loading_dialog.dart';
+import 'package:flutter_application_1/core/theme/app_color.dart';
 import 'package:rive/rive.dart';
-import 'package:flutter_application_1/View/Home_Screen.dart';
 
-class LoginPage extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  const LoginScreen({super.key});
+
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  String validEmail = "Dandi@gmail.com";
+  String validPassword = "12345";
+
+  /// input form controller
+  FocusNode emailFocusNode = FocusNode();
+  TextEditingController emailController = TextEditingController();
+
+  FocusNode passwordFocusNode = FocusNode();
+  TextEditingController passwordController = TextEditingController();
+
+  /// rive controller and input
+  StateMachineController? controller;
+
+  SMIInput<bool>? isChecking;
+  SMIInput<double>? numLook;
+  SMIInput<bool>? isHandsUp;
+
+  SMIInput<bool>? trigSuccess;
+  SMIInput<bool>? trigFail;
+
+  @override
+  void initState() {
+    emailFocusNode.addListener(emailFocus);
+    passwordFocusNode.addListener(passwordFocus);
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    emailFocusNode.removeListener(emailFocus);
+    passwordFocusNode.removeListener(passwordFocus);
+    super.dispose();
+  }
+
+  void emailFocus() {
+    isChecking?.change(emailFocusNode.hasFocus);
+  }
+
+  void passwordFocus() {
+    isHandsUp?.change(passwordFocusNode.hasFocus);
+  }
+
   @override
   Widget build(BuildContext context) {
+    print("Build Called Again");
     return Scaffold(
-      resizeToAvoidBottomInset: false,
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Colors.white,
-        leading: IconButton(
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          icon: Icon(
-            Icons.arrow_back_ios,
-            size: 20,
-            color: Colors.black,
-          ),
-        ),
-      ),
-      body: Container(
-        height: MediaQuery.of(context).size.height,
-        width: double.infinity,
+      backgroundColor: const Color(0xFFD6E2EA),
+      resizeToAvoidBottomInset: true,
+      body: SingleChildScrollView(
+        padding: const EdgeInsets.all(24),
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-          children: <Widget>[
-            // Thêm animation Rive ở đây
-            FadeInUp(
-              duration: Duration(milliseconds: 1000),
-              child: Container(
-                height: 200, // Đặt chiều cao phù hợp
-                child: RiveAnimation.asset(
-                  'assets/animated_login_character_.riv',
-                  fit: BoxFit.contain,
-                ),
+          children: [
+            const SizedBox(height: 32),
+            Container(
+              height: 64,
+              width: 64,
+              padding: const EdgeInsets.all(16),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                shape: BoxShape.circle,
+              ),
+              child: const Image(
+                image: AssetImage("assets/Logo.png"),
               ),
             ),
-            Expanded(
+            const SizedBox(height: 32),
+            Text(
+              "Welcome to Vega City",
+              style: Theme.of(context).textTheme.headlineMedium,
+              textAlign: TextAlign.center,
+            ),
+            SizedBox(
+              height: 250,
+              width: 250,
+              child: RiveAnimation.asset(
+                'assets/animated_login_character_.riv',
+                fit: BoxFit.fitHeight,
+                stateMachines: const ["Login Machine"],
+                onInit: (artboard) {
+                  controller = StateMachineController.fromArtboard(
+                    artboard,
+
+                    /// from rive, you can see it in rive editor
+                    "Login Machine",
+                  );
+                  if (controller == null) return;
+
+                  artboard.addController(controller!);
+                  isChecking = controller?.findInput("isChecking");
+                  numLook = controller?.findInput("numLook");
+                  isHandsUp = controller?.findInput("isHandsUp");
+                  trigSuccess = controller?.findInput("trigSuccess");
+                  trigFail = controller?.findInput("trigFail");
+                },
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: AppColor.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+              padding: const EdgeInsets.all(16),
               child: Column(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: <Widget>[
-                  Column(
-                    children: <Widget>[
-                      FadeInUp(
-                        duration: Duration(milliseconds: 1000),
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: TextField(
+                      focusNode: emailFocusNode,
+                      controller: emailController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Email",
+                      ),
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      onChanged: (value) {
+                        numLook?.change(value.length.toDouble());
+                      },
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Container(
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    child: TextField(
+                      focusNode: passwordFocusNode,
+                      controller: passwordController,
+                      decoration: const InputDecoration(
+                        border: InputBorder.none,
+                        hintText: "Password",
+                      ),
+                      obscureText: true,
+                      style: Theme.of(context).textTheme.bodyMedium,
+                      onChanged: (value) {},
+                    ),
+                  ),
+                  const SizedBox(height: 32),
+                  SizedBox(
+                      width: MediaQuery.of(context).size.width,
+                      height: 64,
+                      child: MaterialButton(
+                        minWidth: double.infinity,
+                        color: Colors.blue[300],
+                        height: 60,
+                        onPressed: () async {
+                          emailFocusNode.unfocus();
+                          passwordFocusNode.unfocus();
+
+                          final email = emailController.text;
+                          final password = passwordController.text;
+
+                          showLoadingDialog(context);
+                          await Future.delayed(
+                            const Duration(milliseconds: 2000),
+                          );
+                          if (mounted) Navigator.pop(context);
+
+                          if (email == validEmail &&
+                              password == validPassword) {
+                            trigSuccess?.change(true);
+                          } else {
+                            trigFail?.change(true);
+                          }
+                        },
+                        shape: RoundedRectangleBorder(
+                            side: BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(50)),
                         child: Text(
                           "Login",
                           style: TextStyle(
-                              fontSize: 30, fontWeight: FontWeight.bold),
+                              fontWeight: FontWeight.w600, fontSize: 18),
                         ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      FadeInUp(
-                        duration: Duration(milliseconds: 1200),
-                        child: Text(
-                          "Login to your account",
-                          style: TextStyle(
-                              fontSize: 15, color: Colors.grey[700]),
-                        ),
-                      ),
-                    ],
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 40),
-                    child: Column(
-                      children: <Widget>[
-                        FadeInUp(
-                          duration: Duration(milliseconds: 1200),
-                          child: makeInput(label: "Username"),
-                        ),
-                        FadeInUp(
-                          duration: Duration(milliseconds: 1300),
-                          child: makeInput(
-                              label: "Password", obscureText: true),
-                        ),
-                      ],
-                    ),
-                  ),
-                  FadeInUp(
-                    duration: Duration(milliseconds: 1400),
-                    child: Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 40),
-                      child: Container(
-                        padding: EdgeInsets.only(top: 3, left: 3),
-                        decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(50),
-                            border: Border(
-                              bottom: BorderSide(color: Colors.black),
-                              top: BorderSide(color: Colors.black),
-                              left: BorderSide(color: Colors.black),
-                              right: BorderSide(color: Colors.black),
-                            )),
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          height: 50,
-                          onPressed: () {
-                            Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => HomePage()));
-                          },
-                          color: Colors.greenAccent,
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(50)),
-                          child: Text(
-                            "Login",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ),
+                      )),
                 ],
               ),
-            ),
+            )
           ],
         ),
       ),
-    );
-  }
-
-  Widget makeInput({label, obscureText = false}) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: <Widget>[
-        Text(
-          label,
-          style: TextStyle(
-              fontSize: 15, fontWeight: FontWeight.w400, color: Colors.black87),
-        ),
-        SizedBox(
-          height: 5,
-        ),
-        TextField(
-          obscureText: obscureText,
-          decoration: InputDecoration(
-            contentPadding: EdgeInsets.symmetric(vertical: 0, horizontal: 10),
-            enabledBorder: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)),
-            border: OutlineInputBorder(
-                borderSide: BorderSide(color: Colors.grey.shade400)),
-          ),
-        ),
-        SizedBox(
-          height: 30,
-        ),
-      ],
     );
   }
 }
