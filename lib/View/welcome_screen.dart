@@ -42,8 +42,7 @@ class WelcomeScreen extends StatelessWidget {
                     height: MediaQuery.of(context).size.height / 3,
                     decoration: BoxDecoration(
                         image: DecorationImage(
-                            image: AssetImage(
-                                'vega_city/assets/Illustration.png'))),
+                            image: AssetImage('assets/Illustration.png'))),
                   )),
               Column(
                 children: <Widget>[

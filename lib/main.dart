@@ -13,26 +13,26 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
-      // title: 'POS',
-      // initialRoute: '/',
-      // getPages: [
-      // GetPage(
-      //   name: '/',
-      //   page: () => SplashScreen(),
-      //   transition: Transition.fadeIn,
-      // ),
-      // GetPage(
-      //   name: '/welcome',
-      //   page: () => WelcomeScreen(),
-      //   transition: Transition.zoom,
-      // ),
-      // GetPage(
-      //   name: '/home',
-      //   page: () => const HomeScreen(),
-      //   transition: Transition.rightToLeft,
-      // ),
-      // ],
-      home: WelcomeScreen(),
+      title: 'POS',
+      initialRoute: '/',
+      getPages: [
+        GetPage(
+          name: '/',
+          page: () => SplashScreen(),
+          transition: Transition.fadeIn,
+        ),
+        GetPage(
+          name: '/welcome',
+          page: () => WelcomeScreen(),
+          transition: Transition.zoom,
+        ),
+        // GetPage(
+        //   name: '/home',
+        //   page: () => const HomeScreen(),
+        //   transition: Transition.rightToLeft,
+        // ),
+      ],
+      home: SplashScreen(),
     );
   }
 }
