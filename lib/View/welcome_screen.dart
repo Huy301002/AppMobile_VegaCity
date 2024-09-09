@@ -63,7 +63,7 @@ class WelcomeScreen extends StatelessWidget {
                             side: BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(50)),
                         child: Text(
-                          "Let's get Started",
+                          "Get Started",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
@@ -71,35 +71,6 @@ class WelcomeScreen extends StatelessWidget {
                   SizedBox(
                     height: 20,
                   ),
-                  // FadeInUp(
-                  //     duration: Duration(milliseconds: 1600),
-                  //     child: Container(
-                  //       padding: EdgeInsets.only(top: 3, left: 3),
-                  //       decoration: BoxDecoration(
-                  //           borderRadius: BorderRadius.circular(50),
-                  //           border: Border(
-                  //             bottom: BorderSide(color: Colors.black),
-                  //             top: BorderSide(color: Colors.black),
-                  //             left: BorderSide(color: Colors.black),
-                  //             right: BorderSide(color: Colors.black),
-                  //           )),
-                  //       child: MaterialButton(
-                  //         minWidth: double.infinity,
-                  //         height: 60,
-                  //         onPressed: () {
-                  //           // Navigator.push(context, MaterialPageRoute(builder: (context) => SignupPage()));
-                  //         },
-                  //         color: Colors.yellow,
-                  //         elevation: 0,
-                  //         shape: RoundedRectangleBorder(
-                  //             borderRadius: BorderRadius.circular(50)),
-                  //         child: Text(
-                  //           "Sign up",
-                  //           style: TextStyle(
-                  //               fontWeight: FontWeight.w600, fontSize: 18),
-                  //         ),
-                  //       ),
-                  //     ))
                 ],
               )
             ],

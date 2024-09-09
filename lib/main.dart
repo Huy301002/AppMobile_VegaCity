@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/login_screen.dart';
 import 'package:flutter_application_1/View/splash_screen.dart';
 import 'package:flutter_application_1/View/welcome_screen.dart';
 import 'package:get/get.dart';
@@ -26,11 +27,11 @@ class MyApp extends StatelessWidget {
           page: () => WelcomeScreen(),
           transition: Transition.zoom,
         ),
-        // GetPage(
-        //   name: '/home',
-        //   page: () => const HomeScreen(),
-        //   transition: Transition.rightToLeft,
-        // ),
+        GetPage(
+          name: '/login',
+          page: () => const LoginScreen(),
+          transition: Transition.zoom,
+        ),
       ],
       home: SplashScreen(),
     );

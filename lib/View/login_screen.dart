@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/home_screen.dart';
 import 'package:flutter_application_1/core/component/dialog/loading_dialog.dart';
 import 'package:flutter_application_1/core/theme/app_color.dart';
 import 'package:rive/rive.dart';
+import 'package:animate_do/animate_do.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -64,142 +66,192 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Column(
           children: [
             const SizedBox(height: 32),
-            Container(
-              height: 64,
-              width: 64,
-              padding: const EdgeInsets.all(16),
-              decoration: const BoxDecoration(
-                color: Colors.white,
-                shape: BoxShape.circle,
-              ),
-              child: const Image(
-                image: AssetImage("assets/Logo.png"),
+            FadeInDown(
+              duration: Duration(milliseconds: 1000),
+              child: Container(
+                height: 64,
+                width: 64,
+                padding: const EdgeInsets.all(16),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  shape: BoxShape.circle,
+                ),
+                child: const Image(
+                  image: AssetImage("assets/Logo.png"),
+                ),
               ),
             ),
             const SizedBox(height: 32),
-            Text(
-              "Welcome to Vega City",
-              style: Theme.of(context).textTheme.headlineMedium,
-              textAlign: TextAlign.center,
-            ),
-            SizedBox(
-              height: 250,
-              width: 250,
-              child: RiveAnimation.asset(
-                'assets/animated_login_character_.riv',
-                fit: BoxFit.fitHeight,
-                stateMachines: const ["Login Machine"],
-                onInit: (artboard) {
-                  controller = StateMachineController.fromArtboard(
-                    artboard,
-
-                    /// from rive, you can see it in rive editor
-                    "Login Machine",
-                  );
-                  if (controller == null) return;
-
-                  artboard.addController(controller!);
-                  isChecking = controller?.findInput("isChecking");
-                  numLook = controller?.findInput("numLook");
-                  isHandsUp = controller?.findInput("isHandsUp");
-                  trigSuccess = controller?.findInput("trigSuccess");
-                  trigFail = controller?.findInput("trigFail");
-                },
+            FadeInDown(
+              duration: Duration(milliseconds: 1200),
+              child: Text(
+                "Welcome to Vega City",
+                style: Theme.of(context).textTheme.headlineMedium,
+                textAlign: TextAlign.center,
               ),
             ),
-            Container(
-              decoration: BoxDecoration(
-                color: AppColor.white,
-                borderRadius: BorderRadius.circular(16),
+            FadeInDown(
+              duration: Duration(milliseconds: 1500),
+              child: SizedBox(
+                height: 250,
+                width: 250,
+                child: RiveAnimation.asset(
+                  'assets/animated_login_character_.riv',
+                  fit: BoxFit.fitHeight,
+                  stateMachines: const ["Login Machine"],
+                  onInit: (artboard) {
+                    controller = StateMachineController.fromArtboard(
+                      artboard,
+                      "Login Machine",
+                    );
+                    if (controller == null) return;
+
+                    artboard.addController(controller!);
+                    isChecking = controller?.findInput("isChecking");
+                    numLook = controller?.findInput("numLook");
+                    isHandsUp = controller?.findInput("isHandsUp");
+                    trigSuccess = controller?.findInput("trigSuccess");
+                    trigFail = controller?.findInput("trigFail");
+                  },
+                ),
               ),
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: TextField(
-                      focusNode: emailFocusNode,
-                      controller: emailController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Email",
+            ),
+            FadeInDown(
+              duration: Duration(milliseconds: 1500),
+              child: Container(
+                decoration: BoxDecoration(
+                  color: AppColor.white,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.all(16),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      onChanged: (value) {
-                        numLook?.change(value.length.toDouble());
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 8,
-                    ),
-                    child: TextField(
-                      focusNode: passwordFocusNode,
-                      controller: passwordController,
-                      decoration: const InputDecoration(
-                        border: InputBorder.none,
-                        hintText: "Password",
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
                       ),
-                      obscureText: true,
-                      style: Theme.of(context).textTheme.bodyMedium,
-                      onChanged: (value) {},
-                    ),
-                  ),
-                  const SizedBox(height: 32),
-                  SizedBox(
-                      width: MediaQuery.of(context).size.width,
-                      height: 64,
-                      child: MaterialButton(
-                        minWidth: double.infinity,
-                        color: Colors.blue[300],
-                        height: 60,
-                        onPressed: () async {
-                          emailFocusNode.unfocus();
-                          passwordFocusNode.unfocus();
-
-                          final email = emailController.text;
-                          final password = passwordController.text;
-
-                          showLoadingDialog(context);
-                          await Future.delayed(
-                            const Duration(milliseconds: 2000),
-                          );
-                          if (mounted) Navigator.pop(context);
-
-                          if (email == validEmail &&
-                              password == validPassword) {
-                            trigSuccess?.change(true);
-                          } else {
-                            trigFail?.change(true);
-                          }
-                        },
-                        shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(50)),
-                        child: Text(
-                          "Login",
-                          style: TextStyle(
-                              fontWeight: FontWeight.w600, fontSize: 18),
+                      child: TextField(
+                        focusNode: emailFocusNode,
+                        controller: emailController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Email",
                         ),
-                      )),
-                ],
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        onChanged: (value) {
+                          numLook?.change(value.length.toDouble());
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 8),
+                    Container(
+                      decoration: BoxDecoration(
+                        color: Colors.grey[200],
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
+                      child: TextField(
+                        focusNode: passwordFocusNode,
+                        controller: passwordController,
+                        decoration: const InputDecoration(
+                          border: InputBorder.none,
+                          hintText: "Password",
+                        ),
+                        obscureText: true,
+                        style: Theme.of(context).textTheme.bodyMedium,
+                        onChanged: (value) {},
+                      ),
+                    ),
+                    const SizedBox(height: 32),
+                    SizedBox(
+                        width: MediaQuery.of(context).size.width,
+                        height: 64,
+                        child: MaterialButton(
+                          minWidth: double.infinity,
+                          color: Colors.blue[300],
+                          height: 60,
+                          onPressed: () async {
+                            emailFocusNode.unfocus();
+                            passwordFocusNode.unfocus();
+
+                            final email = emailController.text;
+                            final password = passwordController.text;
+
+                            if (email.isEmpty || password.isEmpty) {
+                              showDialog(
+                                context: context,
+                                builder: (context) => AlertDialog(
+                                  title: Text("Error"),
+                                  content: Text(
+                                      "Account or password cannot be empty."),
+                                  actions: [
+                                    TextButton(
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text("OK"),
+                                    ),
+                                  ],
+                                ),
+                              );
+                            } else {
+                              showLoadingDialog(context);
+                              await Future.delayed(
+                                const Duration(milliseconds: 2000),
+                              );
+                              if (mounted) Navigator.pop(context);
+
+                              if (email == validEmail &&
+                                  password == validPassword) {
+                                trigSuccess?.change(true);
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => HomeScreen()),
+                                );
+                              } else {
+                                trigFail?.change(true);
+                                showDialog(
+                                  context: context,
+                                  builder: (context) => AlertDialog(
+                                    title: Text("Error"),
+                                    content: Text(
+                                        "Account or password is incorrect."),
+                                    actions: [
+                                      TextButton(
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                        child: Text("OK"),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              }
+                            }
+                          },
+                          shape: RoundedRectangleBorder(
+                              side: BorderSide(color: Colors.black),
+                              borderRadius: BorderRadius.circular(50)),
+                          child: Text(
+                            "Login",
+                            style: TextStyle(
+                                fontWeight: FontWeight.w600, fontSize: 18),
+                          ),
+                        )),
+                  ],
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
