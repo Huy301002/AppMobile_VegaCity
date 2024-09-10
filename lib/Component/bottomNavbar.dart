@@ -2,6 +2,7 @@ import 'package:curved_navigation_bar/curved_navigation_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/home_screen.dart';
 import 'package:flutter_application_1/View/profile_screen.dart';
+import 'package:flutter_application_1/View/package_screen.dart';
 
 class CustomBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -28,6 +29,11 @@ class CustomBottomNavBar extends StatelessWidget {
           Navigator.push(
             context,
             MaterialPageRoute(builder: (context) => HomeScreen()),
+          );
+        } else if (index == 1) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => PackageScreen()),
           );
         } else if (index == 4) {
           Navigator.push(
