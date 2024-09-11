@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Component/bottomNavbar.dart';
 
-class PackageScreen extends StatelessWidget {
+class PackageScreen extends StatefulWidget {
   PackageScreen({Key? key}) : super(key: key);
 
+  @override
+  _PackageScreenState createState() => _PackageScreenState();
+}
+
+class _PackageScreenState extends State<PackageScreen> {
   final List<String> imageUrls = [
     'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
     'https://images.unsplash.com/photo-1522205408450-add114ad53fe?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=368f45b0888aeb0b7b08e3a1084d3ede&auto=format&fit=crop&w=1950&q=80',
@@ -33,9 +38,27 @@ class PackageScreen extends StatelessWidget {
     '_ Giảm 25% áp dụng cho mọi chương trình trong dịp hè',
   ];
 
+  String selectedFilter = 'All'; // Bộ lọc mặc định
+
+  List<int> getFilteredIndexes() {
+    if (selectedFilter == 'All') {
+      return List.generate(comboTitles.length, (index) => index);
+    } else if (selectedFilter == 'Nước') {
+      return [0];
+    } else if (selectedFilter == 'Khô') {
+      return [1];
+    } else if (selectedFilter == 'Khuyến mãi khác') {
+      return [3];
+    }
+    return [];
+  }
+
   @override
   Widget build(BuildContext context) {
+    List<int> filteredIndexes = getFilteredIndexes();
+
     return Scaffold(
+      backgroundColor: const Color(0xFFD6E2EA),
       appBar: AppBar(
         title: Text('Popup Card Demo'),
         centerTitle: true,
@@ -45,19 +68,92 @@ class PackageScreen extends StatelessWidget {
         padding: const EdgeInsets.all(16.0),
         child: Column(
           children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedFilter = 'All';
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide.none, // Loại bỏ viền
+                    backgroundColor: selectedFilter == 'All'
+                        ? Colors.blue
+                        : Colors.white, // Màu nền khi không chọn là màu trắng
+                    primary: selectedFilter == 'All'
+                        ? Colors.white
+                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                  ),
+                  child: Text('All'),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedFilter = 'Nước';
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide.none, // Loại bỏ viền
+                    backgroundColor: selectedFilter == 'Nước'
+                        ? Colors.blue
+                        : Colors.white, // Màu nền khi không chọn là màu trắng
+                    primary: selectedFilter == 'Nước'
+                        ? Colors.white
+                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                  ),
+                  child: Text('Nước'),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedFilter = 'Khô';
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide.none, // Loại bỏ viền
+                    backgroundColor: selectedFilter == 'Khô'
+                        ? Colors.blue
+                        : Colors.white, // Màu nền khi không chọn là màu trắng
+                    primary: selectedFilter == 'Khô'
+                        ? Colors.white
+                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                  ),
+                  child: Text('Khô'),
+                ),
+                OutlinedButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedFilter = 'Khuyến mãi khác';
+                    });
+                  },
+                  style: OutlinedButton.styleFrom(
+                    side: BorderSide.none, // Loại bỏ viền
+                    backgroundColor: selectedFilter == 'Khuyến mãi khác'
+                        ? Colors.blue
+                        : Colors.white, // Màu nền khi không chọn là màu trắng
+                    primary: selectedFilter == 'Khuyến mãi khác'
+                        ? Colors.white
+                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                  ),
+                  child: Text('Khuyến mãi'),
+                ),
+              ],
+            ),
             Expanded(
               child: GridView.builder(
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 1,
-                  childAspectRatio: 1.5, // Tăng chiều cao của card
+                  childAspectRatio: 1.5,
                   crossAxisSpacing: 16,
                   mainAxisSpacing: 16,
                 ),
-                itemCount: imageUrls.length, // Số lượng voucher dựa trên số ảnh
+                itemCount: filteredIndexes.length,
                 itemBuilder: (BuildContext context, int index) {
+                  int filteredIndex = filteredIndexes[index];
                   return GestureDetector(
                     onTap: () {
-                      // Hiển thị thông tin voucher khi bấm vào thẻ
                       showDialog(
                         context: context,
                         builder: (BuildContext context) {
@@ -66,15 +162,14 @@ class PackageScreen extends StatelessWidget {
                               borderRadius: BorderRadius.circular(15),
                             ),
                             title: Text(
-                              comboTitles[index], // Hiển thị tên combo
+                              comboTitles[filteredIndex],
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             content: Column(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                Text(comboDetails[
-                                    index]), // Hiển thị thông tin chi tiết cho từng thẻ
+                                Text(comboDetails[filteredIndex]),
                                 SizedBox(height: 10),
                                 Row(
                                   mainAxisAlignment:
@@ -142,8 +237,8 @@ class PackageScreen extends StatelessWidget {
                               topRight: Radius.circular(15),
                             ),
                             child: Image.network(
-                              imageUrls[index],
-                              height: 180, // Tăng chiều cao của hình ảnh
+                              imageUrls[filteredIndex],
+                              height: 180,
                               width: double.infinity,
                               fit: BoxFit.cover,
                             ),
@@ -152,7 +247,7 @@ class PackageScreen extends StatelessWidget {
                             padding:
                                 const EdgeInsets.only(top: 10.0, bottom: 10.0),
                             child: Text(
-                              comboTitles[index], // Hiển thị tên combo
+                              comboTitles[filteredIndex],
                               style: TextStyle(
                                   fontSize: 18, fontWeight: FontWeight.bold),
                             ),
