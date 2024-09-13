@@ -10,7 +10,6 @@ class AppTheme {
   static ThemeData light = ThemeData(
     brightness: Brightness.light,
     primaryColor: AppColor.primaryColor,
-    backgroundColor: AppColor.backgroundWhite,
     scaffoldBackgroundColor: AppColor.backgroundWhite,
     primarySwatch: AppColor.primarySwatch,
     textTheme: TextTheme(
@@ -40,7 +39,7 @@ class AppTheme {
 
   static ThemeData dark = ThemeData(
     brightness: Brightness.dark,
-    backgroundColor: AppColor.backgroundBlack,
+    // backgroundColor: AppColor.backgroundBlack,
     scaffoldBackgroundColor: AppColor.backgroundBlack,
     primaryColor: AppColor.primaryColor,
     primarySwatch: AppColor.primarySwatch,

@@ -59,7 +59,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     print("Build Called Again");
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: const Color(0xFFD6E2EA),
       resizeToAvoidBottomInset: true,
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(24),
@@ -76,9 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: const Image(
-                  image: AssetImage("assets/Logo.png"),
-                ),
+                // child: Image(image: imageAsset('assets/logo.png')),
               ),
             ),
             const SizedBox(height: 32),

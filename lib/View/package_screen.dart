@@ -82,7 +82,7 @@ class _PackageScreenState extends State<PackageScreen> {
                     backgroundColor: selectedFilter == 'All'
                         ? Colors.blue
                         : Colors.white, // Màu nền khi không chọn là màu trắng
-                    primary: selectedFilter == 'All'
+                    foregroundColor: selectedFilter == 'All'
                         ? Colors.white
                         : Colors.black, // Màu chữ thay đổi theo trạng thái
                   ),
@@ -99,7 +99,7 @@ class _PackageScreenState extends State<PackageScreen> {
                     backgroundColor: selectedFilter == 'Nước'
                         ? Colors.blue
                         : Colors.white, // Màu nền khi không chọn là màu trắng
-                    primary: selectedFilter == 'Nước'
+                    foregroundColor: selectedFilter == 'Nước'
                         ? Colors.white
                         : Colors.black, // Màu chữ thay đổi theo trạng thái
                   ),
@@ -116,7 +116,7 @@ class _PackageScreenState extends State<PackageScreen> {
                     backgroundColor: selectedFilter == 'Khô'
                         ? Colors.blue
                         : Colors.white, // Màu nền khi không chọn là màu trắng
-                    primary: selectedFilter == 'Khô'
+                    foregroundColor: selectedFilter == 'Khô'
                         ? Colors.white
                         : Colors.black, // Màu chữ thay đổi theo trạng thái
                   ),
@@ -133,7 +133,7 @@ class _PackageScreenState extends State<PackageScreen> {
                     backgroundColor: selectedFilter == 'Khuyến mãi khác'
                         ? Colors.blue
                         : Colors.white, // Màu nền khi không chọn là màu trắng
-                    primary: selectedFilter == 'Khuyến mãi khác'
+                    foregroundColor: selectedFilter == 'Khuyến mãi khác'
                         ? Colors.white
                         : Colors.black, // Màu chữ thay đổi theo trạng thái
                   ),

@@ -1,7 +1,8 @@
+import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Component/action_button.dart';
 import 'package:flutter_application_1/Component/button.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+
 import 'package:flutter_application_1/Component/credit_card.dart';
 import 'package:flutter_application_1/Component/bottomNavbar.dart'; // Import widget custom nav bar
 
