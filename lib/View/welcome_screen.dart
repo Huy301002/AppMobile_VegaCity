@@ -6,7 +6,7 @@ class WelcomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0xFFD6E2EA),
+      backgroundColor: Colors.white,
       body: SafeArea(
         child: Container(
           width: double.infinity,
@@ -61,7 +61,7 @@ class WelcomeScreen extends StatelessWidget {
                         },
                         shape: RoundedRectangleBorder(
                             side: BorderSide(color: Colors.black),
-                            borderRadius: BorderRadius.circular(50)),
+                            borderRadius: BorderRadius.circular(5)),
                         child: Text(
                           "Get Started",
                           style: TextStyle(

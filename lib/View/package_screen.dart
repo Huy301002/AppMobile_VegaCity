@@ -58,9 +58,9 @@ class _PackageScreenState extends State<PackageScreen> {
     List<int> filteredIndexes = getFilteredIndexes();
 
     return Scaffold(
-      backgroundColor: const Color(0xFFD6E2EA),
+      backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text('Popup Card Demo'),
+        title: Text('Package'),
         centerTitle: true,
         leading: Container(),
       ),
@@ -233,8 +233,8 @@ class _PackageScreenState extends State<PackageScreen> {
                         children: [
                           ClipRRect(
                             borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(15),
-                              topRight: Radius.circular(15),
+                              topLeft: Radius.circular(8),
+                              topRight: Radius.circular(8),
                             ),
                             child: Image.network(
                               imageUrls[filteredIndex],

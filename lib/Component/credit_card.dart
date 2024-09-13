@@ -70,23 +70,23 @@ class CreditCard extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                                 color: Colors.white),
                           ),
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              CircleAvatar(
-                                radius: 15,
-                                backgroundColor: Colors.white.withOpacity(0.8),
-                              ),
-                              Transform.translate(
-                                offset: const Offset(-10, 0),
-                                child: CircleAvatar(
-                                  radius: 15,
-                                  backgroundColor:
-                                      Colors.white.withOpacity(0.8),
-                                ),
-                              )
-                            ],
-                          )
+                          // Row(
+                          //   mainAxisAlignment: MainAxisAlignment.start,
+                          //   children: [
+                          //     CircleAvatar(
+                          //       radius: 15,
+                          //       backgroundColor: Colors.white.withOpacity(0.8),
+                          //     ),
+                          //     Transform.translate(
+                          //       offset: const Offset(-10, 0),
+                          //       child: CircleAvatar(
+                          //         radius: 15,
+                          //         backgroundColor:
+                          //             Colors.white.withOpacity(0.8),
+                          //       ),
+                          //     )
+                          //   ],
+                          // )
                         ],
                       ),
                     ),
