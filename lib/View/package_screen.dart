@@ -187,20 +187,71 @@ class _PackageScreenState extends State<PackageScreen> {
                                           builder: (BuildContext context) {
                                             return Container(
                                               padding: EdgeInsets.all(16),
-                                              height: 200,
+                                              height: 450,
                                               child: Column(
                                                 mainAxisSize: MainAxisSize.min,
                                                 children: [
-                                                  Text('Combo Details'),
+                                                  // Ô nhập cho Zone
+                                                  DropdownButtonFormField<
+                                                      String>(
+                                                    decoration: InputDecoration(
+                                                      labelText: 'Zone',
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                    ),
+                                                    items: [
+                                                      'Zone A',
+                                                      'Zone B',
+                                                      'Zone C'
+                                                    ].map((String zone) {
+                                                      return DropdownMenuItem<
+                                                          String>(
+                                                        value: zone,
+                                                        child: Text(zone),
+                                                      );
+                                                    }).toList(),
+                                                    onChanged:
+                                                        (String? newValue) {
+                                                      // Thực hiện hành động khi chọn một giá trị
+                                                      print(
+                                                          newValue); // Ví dụ in giá trị đã chọn
+                                                    },
+                                                    validator: (value) {
+                                                      if (value == null ||
+                                                          value.isEmpty) {
+                                                        return 'Please select a zone';
+                                                      }
+                                                      return null;
+                                                    },
+                                                  ),
                                                   SizedBox(height: 10),
-                                                  Text(
-                                                      'This is your card code: ABC123'),
+                                                  // Ô nhập cho Số tiền
+                                                  TextFormField(
+                                                    decoration: InputDecoration(
+                                                      labelText: 'Số tiền',
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                    ),
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                  ),
+                                                  SizedBox(height: 10),
+                                                  // Ô nhập cho Số lượng
+                                                  TextFormField(
+                                                    decoration: InputDecoration(
+                                                      labelText: 'Số lượng',
+                                                      border:
+                                                          OutlineInputBorder(),
+                                                    ),
+                                                    keyboardType:
+                                                        TextInputType.number,
+                                                  ),
                                                   SizedBox(height: 20),
                                                   ElevatedButton(
                                                     onPressed: () {
                                                       Navigator.pop(context);
                                                     },
-                                                    child: Text('Close'),
+                                                    child: Text('Xác nhận'),
                                                   ),
                                                 ],
                                               ),
