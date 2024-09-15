@@ -97,19 +97,22 @@ class _ScannerScreenState extends State<ScannerScreen> {
             Expanded(
               flex: 2,
               child: Stack(children: [
-                MobileScanner(onDetect: (barcode, args) {
-                  if (!isScanCompleted) {
-                    isScanCompleted = true;
-                    String code = barcode.rawValue ?? "---";
-                    Navigator.push(context,
-                        MaterialPageRoute(builder: (context) {
-                      return QRResult(
-                        code: code,
-                        closeScreen: closeScreen,
-                      );
-                    }));
-                  }
-                }),
+                MobileScanner(
+                    controller: cameraController,
+                    allowDuplicates: true,
+                    onDetect: (barcode, args) {
+                      if (!isScanCompleted) {
+                        isScanCompleted = true;
+                        String code = barcode.rawValue ?? "---";
+                        Navigator.push(context,
+                            MaterialPageRoute(builder: (context) {
+                          return QRResult(
+                            code: code,
+                            closeScreen: closeScreen,
+                          );
+                        }));
+                      }
+                    }),
                 QRScannerOverlay(
                   overlayColor: Colors.black26,
                   borderColor: Colors.amber.shade900,
