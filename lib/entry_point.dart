@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/Scanner_Qr/scanner_screen.dart';
 import 'package:flutter_application_1/utils/rive_utils.dart';
 import 'package:rive/rive.dart';
 import 'package:flutter_application_1/View/history/history_screen.dart';
@@ -20,7 +21,7 @@ class _EntryPointState extends State<EntryPoint> {
   static final List<Widget> _screens = [
     HomeScreen(), // Trang Home (icon chat)
     PackageScreen(), // Trang Package (icon star)
-    Placeholder(), // Trang Placeholder (icon home)
+    ScannerScreen(), // Trang Placeholder (icon home)
     HistoryScreen(), // Trang History (icon timer)
     ProfileScreen(), // Trang Profile (icon user)
   ];
