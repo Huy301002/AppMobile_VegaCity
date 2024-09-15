@@ -47,6 +47,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Container(
+                  color: Colors.white54,
                   height: MediaQuery.of(context).size.height * .9,
                   width: double.maxFinite,
                   padding: const EdgeInsets.only(top: 80),
@@ -60,106 +61,82 @@ class _ProfileScreenState extends State<ProfileScreen> {
                       Text("mycity, mystate"),
                       Text("+1234567890"),
                       SizedBox(height: 8),
-                      ElevatedButton(
-                        style: ElevatedButton.styleFrom(
-                          foregroundColor: Colors.blue,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                        ),
-                        onPressed: () {},
-                        child: Container(
-                          width: 55,
-                          height: 35,
-                          child: const Center(
-                            child: Text(
-                              "Edit",
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ),
-                      ),
                       SizedBox(height: 5),
                       const Padding(
-                        padding: EdgeInsets.only(top: 20.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                          children: [
-                            Column(
-                              children: [
-                                Text("42",
-                                    style: TextStyle(
-                                        color: Color(0xff525f7f),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
-                                SizedBox(height: 5),
-                                Text("Total Rides",
-                                    style: TextStyle(
-                                        color: Color(0xff525f7f),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text("10",
-                                    style: TextStyle(
-                                        color: Color(0xff525f7f),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
-                                SizedBox(height: 5),
-                                Text("Cancelled",
-                                    style: TextStyle(
-                                        color: Color(0xff525f7f),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            ),
-                            Column(
-                              children: [
-                                Text("4.5",
-                                    style: TextStyle(
-                                        color: Color(0xff525f7f),
-                                        fontSize: 18,
-                                        fontWeight: FontWeight.bold)),
-                                Text("Rating",
-                                    style: TextStyle(
-                                        color: Color(0xff525f7f),
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold)),
-                              ],
-                            )
-                          ],
-                        ),
-                      ),
-                      const Padding(
                         padding: EdgeInsets.only(
-                            top: 10.0, left: 20, right: 30, bottom: 10),
+                            top: 10.0, left: 20, right: 20, bottom: 10),
                         child: Divider(
                           thickness: 0.8,
                           color: Colors.blueGrey,
                         ),
                       ),
-                      ListTile(
-                        title: Text("Privacy Policy"),
-                        leading: Icon(Icons.security_outlined),
-                      ),
-                      ListTile(
-                        title: Text("Share"),
-                        leading: Icon(Icons.share),
-                      ),
-                      ListTile(
-                        title: Text(
-                          "Log out",
-                          style: TextStyle(color: Colors.red),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20.0, right: 20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white, // Màu nền trắng
+                            borderRadius: BorderRadius.circular(
+                                10), // Bo tròn các góc (tùy chọn)
+                            border: Border.all(
+                              color: Colors.grey.withOpacity(0.5), // Màu viền
+                              width: 1, // Độ dày viền
+                            ),
+                          ),
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: Text("Profile"),
+                                leading: Icon(Icons.person),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 12,
+                                ), // Mũi tên chỉ về hướng phải
+                              ),
+                              ListTile(
+                                title: Text("Privacy Policy"),
+                                leading: Icon(Icons.security_outlined),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 12,
+                                ), // Mũi tên chỉ về hướng phải
+                              ),
+                              ListTile(
+                                title: Text("Share"),
+                                leading: Icon(Icons.share),
+                                trailing: Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 12,
+                                ), // Mũi tên chỉ về hướng phải
+                              ),
+                            ],
+                          ),
                         ),
-                        leading: Icon(
-                          Icons.logout,
-                          color: Colors.red,
-                        ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(
+                            top: 120.0, left: 20, right: 20),
+                        child: Container(
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius:
+                                BorderRadius.circular(2), // Bo tròn các góc
+                            border: Border.all(
+                              color: Colors.grey.withOpacity(0.5), // Màu viền
+                              width: 1, // Độ dày viền
+                            ),
+                          ),
+                          child: ListTile(
+                            title: Text(
+                              "Log out",
+                              style: TextStyle(color: Colors.red),
+                            ),
+                            leading: Icon(
+                              Icons.logout,
+                              color: Colors.red,
+                            ),
+                          ),
+                        ),
+                      )
                     ],
                   ),
                 ),
@@ -180,10 +157,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 4,
-        onTap: (index) {},
       ),
     );
   }

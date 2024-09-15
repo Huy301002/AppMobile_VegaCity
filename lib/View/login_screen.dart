@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/home_screen.dart';
+import 'package:flutter_application_1/Component/bottomNavbar.dart';
 import 'package:flutter_application_1/core/component/dialog/loading_dialog.dart';
 import 'package:flutter_application_1/core/theme/app_color.dart';
+import 'package:flutter_application_1/entry_point.dart';
 import 'package:rive/rive.dart';
 import 'package:animate_do/animate_do.dart';
 
@@ -175,7 +176,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 64,
                         child: MaterialButton(
                           minWidth: double.infinity,
-                          color: Colors.blue[300],
+                          color: Color.fromARGB(255, 30, 144, 255),
                           height: 60,
                           onPressed: () async {
                             emailFocusNode.unfocus();
@@ -214,7 +215,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => HomeScreen()),
+                                      builder: (context) => EntryPoint()),
                                 );
                               } else {
                                 trigFail?.change(true);

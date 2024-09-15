@@ -133,10 +133,6 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ),
       ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 0,
-        onTap: (index) {},
-      ),
     );
   }
 
@@ -151,7 +147,9 @@ class _HomeScreenState extends State<HomeScreen> {
             margin: const EdgeInsets.all(5),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: i == _currentPage ? Colors.blue : Colors.grey,
+              color: i == _currentPage
+                  ? Color.fromARGB(255, 30, 144, 255)
+                  : Colors.grey,
             ),
           ),
       ],

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Component/bottomNavbar.dart';
 
 class PackageScreen extends StatefulWidget {
   PackageScreen({Key? key}) : super(key: key);
@@ -78,13 +77,11 @@ class _PackageScreenState extends State<PackageScreen> {
                     });
                   },
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide.none, // Loại bỏ viền
                     backgroundColor: selectedFilter == 'All'
-                        ? Colors.blue
-                        : Colors.white, // Màu nền khi không chọn là màu trắng
-                    foregroundColor: selectedFilter == 'All'
-                        ? Colors.white
-                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                        ? Color.fromARGB(255, 30, 144, 255)
+                        : Colors.white,
+                    foregroundColor:
+                        selectedFilter == 'All' ? Colors.white : Colors.black,
                   ),
                   child: Text('All'),
                 ),
@@ -95,13 +92,11 @@ class _PackageScreenState extends State<PackageScreen> {
                     });
                   },
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide.none, // Loại bỏ viền
                     backgroundColor: selectedFilter == 'Nước'
-                        ? Colors.blue
-                        : Colors.white, // Màu nền khi không chọn là màu trắng
-                    foregroundColor: selectedFilter == 'Nước'
-                        ? Colors.white
-                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                        ? Color.fromARGB(255, 30, 144, 255)
+                        : Colors.white,
+                    foregroundColor:
+                        selectedFilter == 'Nước' ? Colors.white : Colors.black,
                   ),
                   child: Text('Nước'),
                 ),
@@ -112,13 +107,11 @@ class _PackageScreenState extends State<PackageScreen> {
                     });
                   },
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide.none, // Loại bỏ viền
                     backgroundColor: selectedFilter == 'Khô'
-                        ? Colors.blue
-                        : Colors.white, // Màu nền khi không chọn là màu trắng
-                    foregroundColor: selectedFilter == 'Khô'
-                        ? Colors.white
-                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                        ? Color.fromARGB(255, 30, 144, 255)
+                        : Colors.white,
+                    foregroundColor:
+                        selectedFilter == 'Khô' ? Colors.white : Colors.black,
                   ),
                   child: Text('Khô'),
                 ),
@@ -129,13 +122,12 @@ class _PackageScreenState extends State<PackageScreen> {
                     });
                   },
                   style: OutlinedButton.styleFrom(
-                    side: BorderSide.none, // Loại bỏ viền
                     backgroundColor: selectedFilter == 'Khuyến mãi khác'
-                        ? Colors.blue
-                        : Colors.white, // Màu nền khi không chọn là màu trắng
+                        ? Color.fromARGB(255, 30, 144, 255)
+                        : Colors.white,
                     foregroundColor: selectedFilter == 'Khuyến mãi khác'
                         ? Colors.white
-                        : Colors.black, // Màu chữ thay đổi theo trạng thái
+                        : Colors.black,
                   ),
                   child: Text('Khuyến mãi'),
                 ),
@@ -159,7 +151,7 @@ class _PackageScreenState extends State<PackageScreen> {
                         builder: (BuildContext context) {
                           return AlertDialog(
                             shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(15),
+                              borderRadius: BorderRadius.circular(5),
                             ),
                             title: Text(
                               comboTitles[filteredIndex],
@@ -172,100 +164,160 @@ class _PackageScreenState extends State<PackageScreen> {
                                 Text(comboDetails[filteredIndex]),
                                 SizedBox(height: 10),
                                 Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        showModalBottomSheet(
-                                          context: context,
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            Color.fromARGB(255, 30, 144, 255),
+                                            Color.fromARGB(255, 16, 78, 139),
+                                          ],
+                                          begin: Alignment.topLeft,
+                                          end: Alignment.bottomRight,
+                                        ),
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      child: ElevatedButton(
+                                        style: ElevatedButton.styleFrom(
+                                          backgroundColor: Colors.transparent,
+                                          shadowColor: Colors.transparent,
                                           shape: RoundedRectangleBorder(
-                                            borderRadius: BorderRadius.vertical(
-                                              top: Radius.circular(20),
-                                            ),
+                                            borderRadius:
+                                                BorderRadius.circular(5),
                                           ),
-                                          builder: (BuildContext context) {
-                                            return Container(
-                                              padding: EdgeInsets.all(16),
-                                              height: 450,
-                                              child: Column(
-                                                mainAxisSize: MainAxisSize.min,
-                                                children: [
-                                                  // Ô nhập cho Zone
-                                                  DropdownButtonFormField<
-                                                      String>(
-                                                    decoration: InputDecoration(
-                                                      labelText: 'Zone',
-                                                      border:
-                                                          OutlineInputBorder(),
+                                        ),
+                                        onPressed: () {
+                                          showModalBottomSheet(
+                                            context: context,
+                                            shape: RoundedRectangleBorder(
+                                              borderRadius:
+                                                  BorderRadius.circular(5),
+                                            ),
+                                            builder: (BuildContext context) {
+                                              return Container(
+                                                padding: EdgeInsets.all(16),
+                                                height: 450,
+                                                child: Column(
+                                                  mainAxisSize:
+                                                      MainAxisSize.min,
+                                                  children: [
+                                                    DropdownButtonFormField<
+                                                        String>(
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelText: 'Zone',
+                                                        border:
+                                                            OutlineInputBorder(),
+                                                      ),
+                                                      items: [
+                                                        'Zone A',
+                                                        'Zone B',
+                                                        'Zone C'
+                                                      ].map((String zone) {
+                                                        return DropdownMenuItem<
+                                                            String>(
+                                                          value: zone,
+                                                          child: Text(zone),
+                                                        );
+                                                      }).toList(),
+                                                      onChanged:
+                                                          (String? newValue) {
+                                                        print(newValue);
+                                                      },
+                                                      validator: (value) {
+                                                        if (value == null ||
+                                                            value.isEmpty) {
+                                                          return 'Please select a zone';
+                                                        }
+                                                        return null;
+                                                      },
                                                     ),
-                                                    items: [
-                                                      'Zone A',
-                                                      'Zone B',
-                                                      'Zone C'
-                                                    ].map((String zone) {
-                                                      return DropdownMenuItem<
-                                                          String>(
-                                                        value: zone,
-                                                        child: Text(zone),
-                                                      );
-                                                    }).toList(),
-                                                    onChanged:
-                                                        (String? newValue) {
-                                                      // Thực hiện hành động khi chọn một giá trị
-                                                      print(
-                                                          newValue); // Ví dụ in giá trị đã chọn
-                                                    },
-                                                    validator: (value) {
-                                                      if (value == null ||
-                                                          value.isEmpty) {
-                                                        return 'Please select a zone';
-                                                      }
-                                                      return null;
-                                                    },
-                                                  ),
-                                                  SizedBox(height: 10),
-                                                  // Ô nhập cho Số tiền
-                                                  TextFormField(
-                                                    decoration: InputDecoration(
-                                                      labelText: 'Số tiền',
-                                                      border:
-                                                          OutlineInputBorder(),
+                                                    SizedBox(height: 10),
+                                                    TextFormField(
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelText: 'Số tiền',
+                                                        border:
+                                                            OutlineInputBorder(),
+                                                      ),
+                                                      keyboardType:
+                                                          TextInputType.number,
                                                     ),
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                  ),
-                                                  SizedBox(height: 10),
-                                                  // Ô nhập cho Số lượng
-                                                  TextFormField(
-                                                    decoration: InputDecoration(
-                                                      labelText: 'Số lượng',
-                                                      border:
-                                                          OutlineInputBorder(),
+                                                    SizedBox(height: 10),
+                                                    TextFormField(
+                                                      decoration:
+                                                          InputDecoration(
+                                                        labelText: 'Số lượng',
+                                                        border:
+                                                            OutlineInputBorder(),
+                                                      ),
+                                                      keyboardType:
+                                                          TextInputType.number,
                                                     ),
-                                                    keyboardType:
-                                                        TextInputType.number,
-                                                  ),
-                                                  SizedBox(height: 20),
-                                                  ElevatedButton(
-                                                    onPressed: () {
-                                                      Navigator.pop(context);
-                                                    },
-                                                    child: Text('Xác nhận'),
-                                                  ),
-                                                ],
-                                              ),
-                                            );
-                                          },
-                                        );
-                                      },
-                                      child: Text('Order'),
-                                    ),
-                                    ElevatedButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: Text('Close'),
+                                                    SizedBox(height: 20),
+                                                    Container(
+                                                      decoration: BoxDecoration(
+                                                        gradient:
+                                                            LinearGradient(
+                                                          colors: [
+                                                            Color.fromARGB(255,
+                                                                30, 144, 255),
+                                                            Color.fromARGB(255,
+                                                                16, 78, 139),
+                                                          ],
+                                                          begin:
+                                                              Alignment.topLeft,
+                                                          end: Alignment
+                                                              .bottomRight,
+                                                        ),
+                                                        borderRadius:
+                                                            BorderRadius
+                                                                .circular(5),
+                                                      ),
+                                                      child: ElevatedButton(
+                                                        style: ElevatedButton
+                                                            .styleFrom(
+                                                          backgroundColor:
+                                                              Colors
+                                                                  .transparent,
+                                                          shadowColor: Colors
+                                                              .transparent,
+                                                          shape:
+                                                              RoundedRectangleBorder(
+                                                            borderRadius:
+                                                                BorderRadius
+                                                                    .circular(
+                                                                        5),
+                                                          ),
+                                                        ),
+                                                        onPressed: () {
+                                                          // Code hành động cho nút
+                                                        },
+                                                        child: Text(
+                                                          'General E-tag',
+                                                          style: TextStyle(
+                                                              color:
+                                                                  Colors.white,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ],
+                                                ),
+                                              );
+                                            },
+                                          );
+                                        },
+                                        child: Text(
+                                          'General E-tag',
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              fontWeight: FontWeight.bold),
+                                        ),
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -276,31 +328,31 @@ class _PackageScreenState extends State<PackageScreen> {
                       );
                     },
                     child: Card(
+                      elevation: 4,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(15),
+                        borderRadius: BorderRadius.circular(10),
                       ),
-                      elevation: 5,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(8),
-                              topRight: Radius.circular(8),
-                            ),
-                            child: Image.network(
-                              imageUrls[filteredIndex],
-                              height: 180,
-                              width: double.infinity,
-                              fit: BoxFit.cover,
-                            ),
+                          Image.network(
+                            imageUrls[filteredIndex],
+                            height: 150,
+                            width: double.infinity,
+                            fit: BoxFit.cover,
                           ),
                           Padding(
-                            padding:
-                                const EdgeInsets.only(top: 10.0, bottom: 10.0),
-                            child: Text(
-                              comboTitles[filteredIndex],
-                              style: TextStyle(
-                                  fontSize: 18, fontWeight: FontWeight.bold),
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  comboTitles[filteredIndex],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold),
+                                ),
+                              ],
                             ),
                           ),
                         ],
@@ -312,10 +364,6 @@ class _PackageScreenState extends State<PackageScreen> {
             ),
           ],
         ),
-      ),
-      bottomNavigationBar: CustomBottomNavBar(
-        currentIndex: 1,
-        onTap: (index) {},
       ),
     );
   }
