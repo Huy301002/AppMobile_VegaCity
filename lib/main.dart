@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
       getPages: [
         GetPage(
           name: '/',
-          page: () => SplashScreen(),
+          page: () => const SplashScreen(),
           transition: Transition.fadeIn,
         ),
         GetPage(
@@ -33,7 +33,7 @@ class MyApp extends StatelessWidget {
           transition: Transition.zoom,
         ),
       ],
-      home: SplashScreen(),
+      home: const SplashScreen(),
     );
   }
 }

@@ -3,6 +3,8 @@ import 'package:animate_do/animate_do.dart';
 import 'package:flutter_application_1/View/login_screen.dart';
 
 class WelcomeScreen extends StatelessWidget {
+  const WelcomeScreen({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -11,7 +13,7 @@ class WelcomeScreen extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: MediaQuery.of(context).size.height,
-          padding: EdgeInsets.symmetric(horizontal: 30, vertical: 50),
+          padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 50),
           child: Column(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -19,17 +21,17 @@ class WelcomeScreen extends StatelessWidget {
               Column(
                 children: <Widget>[
                   FadeInUp(
-                      duration: Duration(milliseconds: 1000),
-                      child: Text(
+                      duration: const Duration(milliseconds: 1000),
+                      child: const Text(
                         "Welcome",
                         style: TextStyle(
                             fontWeight: FontWeight.bold, fontSize: 30),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                   FadeInUp(
-                      duration: Duration(milliseconds: 1200),
+                      duration: const Duration(milliseconds: 1200),
                       child: Text(
                         "Automatic identity verification which enables you to verify your identity",
                         textAlign: TextAlign.center,
@@ -38,17 +40,17 @@ class WelcomeScreen extends StatelessWidget {
                 ],
               ),
               FadeInUp(
-                  duration: Duration(milliseconds: 1500),
+                  duration: const Duration(milliseconds: 1500),
                   child: Container(
                     height: MediaQuery.of(context).size.height / 3,
-                    decoration: BoxDecoration(
+                    decoration: const BoxDecoration(
                         image: DecorationImage(
                             image: AssetImage('assets/Illustration.png'))),
                   )),
               Column(
                 children: <Widget>[
                   FadeInUp(
-                      duration: Duration(milliseconds: 1500),
+                      duration: const Duration(milliseconds: 1500),
                       child: MaterialButton(
                         minWidth: double.infinity,
                         color: Colors.blue[300],
@@ -57,18 +59,18 @@ class WelcomeScreen extends StatelessWidget {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => LoginScreen()));
+                                  builder: (context) => const LoginScreen()));
                         },
                         shape: RoundedRectangleBorder(
-                            side: BorderSide(color: Colors.black),
+                            side: const BorderSide(color: Colors.black),
                             borderRadius: BorderRadius.circular(5)),
-                        child: Text(
+                        child: const Text(
                           "Get Started",
                           style: TextStyle(
                               fontWeight: FontWeight.w600, fontSize: 18),
                         ),
                       )),
-                  SizedBox(
+                  const SizedBox(
                     height: 20,
                   ),
                 ],

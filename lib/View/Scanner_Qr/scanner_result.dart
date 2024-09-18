@@ -28,23 +28,23 @@ class QRResult extends StatelessWidget {
         centerTitle: true,
         leading: IconButton(
           style: ButtonStyle(
-            iconSize: MaterialStatePropertyAll(30),
-            iconColor: MaterialStatePropertyAll(Colors.amber.shade900),
-            backgroundColor: MaterialStatePropertyAll(Colors.white70),
+            iconSize: WidgetStatePropertyAll(30),
+            iconColor: WidgetStatePropertyAll(Colors.amber.shade900),
+            backgroundColor: WidgetStatePropertyAll(Colors.white70),
           ),
           onPressed: () {
             Navigator.push(context, MaterialPageRoute(builder: (context) {
-              return ScannerScreen();
+              return const ScannerScreen();
             }));
           },
           icon: const Icon(Icons.qr_code_scanner),
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.all(60),
+        padding: const EdgeInsets.all(60),
         child: Column(
           children: [
-            SizedBox(
+            const SizedBox(
               height: 120,
             ),
             QrImageView(
@@ -52,7 +52,7 @@ class QRResult extends StatelessWidget {
               size: 300,
               version: QrVersions.auto,
             ),
-            Text(
+            const Text(
               "Scanned QR",
               style: TextStyle(
                 color: Colors.black,
@@ -60,19 +60,19 @@ class QRResult extends StatelessWidget {
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 10,
             ),
             Text(
               code,
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: const TextStyle(
                 color: Colors.black,
                 fontSize: 20,
                 fontWeight: FontWeight.bold,
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             SizedBox(
@@ -82,7 +82,7 @@ class QRResult extends StatelessWidget {
                   onPressed: () {
                     Clipboard.setData(ClipboardData(text: code));
                   },
-                  child: Text("Copy")),
+                  child: const Text("Copy")),
             )
           ],
         ),

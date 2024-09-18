@@ -1,10 +1,6 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Component/action_button.dart';
-import 'package:flutter_application_1/Component/button.dart';
-
-import 'package:flutter_application_1/Component/credit_card.dart';
-import 'package:flutter_application_1/Component/bottomNavbar.dart'; // Import widget custom nav bar
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -38,21 +34,28 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   children: [
-                    const Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Welcome Back!",
-                          style: TextStyle(color: Colors.black),
-                        ),
-                        Text(
-                          "Veigar",
-                          style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 24,
-                              fontWeight: FontWeight.bold),
-                        ),
-                      ],
+                    const CircleAvatar(
+                      backgroundImage: AssetImage('assets/Logo.png'),
+                      radius: 30,
+                    ),
+                    const SizedBox(width: 16),
+                    const Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            "Welcome Back!",
+                            style: TextStyle(color: Colors.black),
+                          ),
+                          Text(
+                            "Veigar",
+                            style: TextStyle(
+                                color: Colors.black,
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold),
+                          ),
+                        ],
+                      ),
                     ),
                     const Spacer(),
                     IconButton.outlined(
@@ -63,41 +66,6 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-              Stack(
-                children: [
-                  Container(
-                    margin: const EdgeInsets.only(top: 157),
-                    child: const Column(
-                      children: [
-                        SizedBox(height: 110),
-                        ActionButtons(), // Nút hành động
-                        SizedBox(height: 30),
-                        // Danh sách giao dịch
-                      ],
-                    ),
-                  ),
-                  const Positioned(
-                    top: 20,
-                    left: 25,
-                    right: 25,
-                    child: CreditCard(), // Thẻ tín dụng giả
-                  ),
-                ],
-              ),
-              Container(
-                margin: const EdgeInsets.only(left: 40),
-                child: const Align(
-                  alignment: Alignment.centerLeft,
-                  child: Text(
-                    "Hot News",
-                    style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
               Center(
                 child: Column(
                   children: [
@@ -129,9 +97,136 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              const SizedBox(height: 20),
+              Stack(
+                children: [
+                  Container(
+                    margin: const EdgeInsets.only(top: 20),
+                    child: const Column(
+                      children: [
+                        ActionButtons(), // Nút hành động
+                        SizedBox(height: 30),
+                        // Danh sách giao dịch
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              Container(
+                margin: const EdgeInsets.only(left: 40, right: 30),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      "Packages",
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontWeight: FontWeight.bold,
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {
+                        // Thêm hành động khi bấm vào "See All"
+                      },
+                      child: const Text(
+                        "See All",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.blue, // Màu chữ "See All"
+                          fontWeight: FontWeight.normal,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+
+              const SizedBox(height: 20),
+              // Thêm phần card lớn xếp chồng bên dưới Carousel
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16.0),
+                child: Column(
+                  children: [
+                    buildCard(
+                      "Combo trọn gói",
+                      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
+                    ),
+                    buildCard(
+                      "Combo vui chơi khô",
+                      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80',
+                    ),
+                    buildCard(
+                      "Combo vui chơi nước",
+                      'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
+                    ),
+                  ],
+                ),
+              ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Widget buildCard(String title, String imageUrl) {
+    return Container(
+      width: 340, // Đặt chiều rộng của card cho toàn màn hình
+      margin: const EdgeInsets.only(
+          bottom: 16, left: 20), // Khoảng cách giữa các card
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(10),
+        boxShadow: const [
+          BoxShadow(
+            color: Colors.black26,
+            blurRadius: 5,
+            offset: Offset(2, 2),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          ClipRRect(
+            borderRadius: const BorderRadius.only(
+              topLeft: Radius.circular(10),
+              bottomLeft: Radius.circular(10),
+            ),
+            child: Image.network(
+              imageUrl,
+              width: 120, // Đặt chiều rộng cho hình ảnh
+              height: 120, // Đặt chiều cao cho hình ảnh
+              fit: BoxFit.cover,
+            ),
+          ),
+          Expanded(
+            child: Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: const TextStyle(
+                      color: Colors.black,
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                  const SizedBox(
+                      height: 8), // Khoảng cách giữa title và description
+                  const Text(
+                    "This is a description of the card. It can be multiple lines.",
+                    style: TextStyle(
+                      color: Colors.grey,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -148,7 +243,7 @@ class _HomeScreenState extends State<HomeScreen> {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: i == _currentPage
-                  ? Color.fromARGB(255, 30, 144, 255)
+                  ? const Color.fromARGB(255, 30, 144, 255)
                   : Colors.grey,
             ),
           ),

@@ -31,11 +31,11 @@ class Button extends StatelessWidget {
           boxShadow: [
             BoxShadow(
               color: Colors.grey.shade500,
-              offset: Offset(6, 6),
+              offset: const Offset(6, 6),
               blurRadius: 15,
               spreadRadius: 1,
             ),
-            BoxShadow(
+            const BoxShadow(
               color: Colors.white,
               offset: Offset(-6, -6),
               blurRadius: 15,
@@ -52,7 +52,7 @@ class Button extends StatelessWidget {
               color:
                   isButtonPressed ? buttonColor.withOpacity(0.8) : buttonColor,
             ),
-            SizedBox(height: 8), // Khoảng cách giữa icon và text
+            const SizedBox(height: 8), // Khoảng cách giữa icon và text
             Text(
               label,
               style: TextStyle(

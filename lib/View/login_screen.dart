@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/Component/bottomNavbar.dart';
 import 'package:flutter_application_1/core/component/dialog/loading_dialog.dart';
 import 'package:flutter_application_1/core/theme/app_color.dart';
 import 'package:flutter_application_1/entry_point.dart';
@@ -68,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
           children: [
             const SizedBox(height: 32),
             FadeInDown(
-              duration: Duration(milliseconds: 1000),
+              duration: const Duration(milliseconds: 1000),
               child: Container(
                 height: 64,
                 width: 64,
@@ -82,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
             const SizedBox(height: 32),
             FadeInDown(
-              duration: Duration(milliseconds: 1200),
+              duration: const Duration(milliseconds: 1200),
               child: Text(
                 "Welcome to Vega City",
                 style: Theme.of(context).textTheme.headlineMedium,
@@ -90,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             FadeInDown(
-              duration: Duration(milliseconds: 1500),
+              duration: const Duration(milliseconds: 1500),
               child: SizedBox(
                 height: 250,
                 width: 250,
@@ -116,7 +115,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
             ),
             FadeInDown(
-              duration: Duration(milliseconds: 1500),
+              duration: const Duration(milliseconds: 1500),
               child: Container(
                 decoration: BoxDecoration(
                   color: AppColor.white,
@@ -176,7 +175,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         height: 64,
                         child: MaterialButton(
                           minWidth: double.infinity,
-                          color: Color.fromARGB(255, 30, 144, 255),
+                          color: const Color.fromARGB(255, 30, 144, 255),
                           height: 60,
                           onPressed: () async {
                             emailFocusNode.unfocus();
@@ -189,15 +188,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               showDialog(
                                 context: context,
                                 builder: (context) => AlertDialog(
-                                  title: Text("Error"),
-                                  content: Text(
+                                  title: const Text("Error"),
+                                  content: const Text(
                                       "Account or password cannot be empty."),
                                   actions: [
                                     TextButton(
                                       onPressed: () {
                                         Navigator.pop(context);
                                       },
-                                      child: Text("OK"),
+                                      child: const Text("OK"),
                                     ),
                                   ],
                                 ),
@@ -215,22 +214,22 @@ class _LoginScreenState extends State<LoginScreen> {
                                 Navigator.push(
                                   context,
                                   MaterialPageRoute(
-                                      builder: (context) => EntryPoint()),
+                                      builder: (context) => const EntryPoint()),
                                 );
                               } else {
                                 trigFail?.change(true);
                                 showDialog(
                                   context: context,
                                   builder: (context) => AlertDialog(
-                                    title: Text("Error"),
-                                    content: Text(
+                                    title: const Text("Error"),
+                                    content: const Text(
                                         "Account or password is incorrect."),
                                     actions: [
                                       TextButton(
                                         onPressed: () {
                                           Navigator.pop(context);
                                         },
-                                        child: Text("OK"),
+                                        child: const Text("OK"),
                                       ),
                                     ],
                                   ),
@@ -239,9 +238,9 @@ class _LoginScreenState extends State<LoginScreen> {
                             }
                           },
                           shape: RoundedRectangleBorder(
-                              side: BorderSide(color: Colors.black),
+                              side: const BorderSide(color: Colors.black),
                               borderRadius: BorderRadius.circular(5)),
-                          child: Text(
+                          child: const Text(
                             "Login",
                             style: TextStyle(
                                 fontWeight: FontWeight.w600, fontSize: 18),

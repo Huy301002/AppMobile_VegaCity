@@ -43,6 +43,10 @@ dependencies:
   mobile_scanner: ^2.1.0
   qr_scanner_overlay: ^0.0.2
   qr_flutter: ^4.1.0
+  image_picker: ^1.1.2
+  fl_chart: ^0.69.0
+  pie_chart: ^5.4.0
+  bar_chart: ^1.0.0+1
    
 
 dev_dependencies:

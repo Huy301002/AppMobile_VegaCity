@@ -24,24 +24,23 @@ class _ScannerScreenState extends State<ScannerScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber.shade900,
+        backgroundColor: const Color.fromARGB(255, 30, 144, 255),
         title: const Text(
           'Scanner',
           style: TextStyle(
             color: Colors.white,
-            fontSize: 40,
-            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,
         leading: IconButton(
-            style: ButtonStyle(
-              iconSize: MaterialStatePropertyAll(30),
-              iconColor: MaterialStatePropertyAll(Colors.amber.shade900),
-              backgroundColor: MaterialStatePropertyAll(Colors.white70),
+            style: const ButtonStyle(
+              iconSize: WidgetStatePropertyAll(30),
+              iconColor:
+                  WidgetStatePropertyAll(Color.fromARGB(255, 30, 144, 255)),
+              backgroundColor: WidgetStatePropertyAll(Colors.white70),
             ),
             onPressed: () {},
-            icon: Icon(Icons.qr_code_scanner)),
+            icon: const Icon(Icons.qr_code_scanner)),
         actions: [
           IconButton(
             onPressed: () {
@@ -67,31 +66,23 @@ class _ScannerScreenState extends State<ScannerScreen> {
       ),
       body: Container(
         width: double.infinity,
-        padding: EdgeInsets.all(20),
+        padding: const EdgeInsets.all(20),
         child: Column(
           children: [
-            Expanded(
+            const Expanded(
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Text("Place the QR code in designated area",
+                  Text("Please Scanner",
                       style: TextStyle(
                         color: Colors.black,
                         fontSize: 20,
                         fontWeight: FontWeight.bold,
                       )),
-                  Text(
-                    "Let the scan do the magic-it starts on its own!",
-                    style: TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  )
                 ],
               ),
             ),
-            SizedBox(
+            const SizedBox(
               height: 20,
             ),
             Expanded(
@@ -115,7 +106,7 @@ class _ScannerScreenState extends State<ScannerScreen> {
                     }),
                 QRScannerOverlay(
                   overlayColor: Colors.black26,
-                  borderColor: Colors.amber.shade900,
+                  borderColor: const Color.fromARGB(255, 30, 144, 255),
                   borderRadius: 20,
                   borderStrokeWidth: 10,
                   scanAreaHeight: 250,
@@ -123,14 +114,14 @@ class _ScannerScreenState extends State<ScannerScreen> {
                 )
               ]),
             ),
-            Expanded(
+            const Expanded(
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
                     "!Scan properly to see results!",
                     style: TextStyle(
-                      color: Colors.amber.shade900,
+                      color: Color.fromARGB(255, 30, 144, 255),
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                     ),
