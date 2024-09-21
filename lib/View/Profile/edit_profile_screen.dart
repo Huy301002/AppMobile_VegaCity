@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'dart:io';
+import 'package:dio/dio.dart'; // Thêm import cho Dio
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({super.key});
@@ -15,13 +16,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   final TextEditingController _dobController =
       TextEditingController(text: '30/10/2002');
   final TextEditingController _emailController =
-      TextEditingController(text: 'Dandi@gmail.com');
-  final TextEditingController _passwordController =
-      TextEditingController(text: '12345');
+      TextEditingController(text: 'hoangthse161468@fpt.edu.vn');
   final TextEditingController _phoneController =
-      TextEditingController(text: '09762266784');
+      TextEditingController(text: '09762266749');
 
   File? _image;
+  final Dio _dio = Dio(); // Khởi tạo Dio
 
   Future<void> _pickImage() async {
     final ImagePicker picker = ImagePicker();
@@ -36,23 +36,41 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     }
   }
 
-  void _saveProfile() {
+  Future<void> _updateProfile() async {
     String name = _nameController.text;
     String dob = _dobController.text;
     String email = _emailController.text;
     String phone = _phoneController.text;
 
-    // Giả sử bạn thực hiện việc lưu dữ liệu ở đây (có thể lưu vào DB hoặc API)
-    setState(() {
-      // Cập nhật giao diện sau khi thay đổi dữ liệu
-    });
+    // Tạo payload cho API
+    final Map<String, dynamic> payload = {
+      'name': name,
+      'dob': dob,
+      'email': email,
+      'phone': phone,
+      // Bạn có thể thêm hình ảnh nếu cần
+    };
 
-    // Hiển thị thông báo cập nhật thành công
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(content: Text("Cập nhật thành công!")),
-    );
+    try {
+      final response = await _dio.put('/user/update',
+          data: payload); // Đường dẫn API tương ứng
+      if (response.statusCode == 200) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(content: Text("Cập nhật thành công!")),
+        );
+        Navigator.pop(context);
+      } else {
+        throw Exception('Cập nhật không thành công: ${response.statusCode}');
+      }
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Có lỗi xảy ra: $e")),
+      );
+    }
+  }
 
-    Navigator.pop(context);
+  void _saveProfile() {
+    _updateProfile(); // Gọi phương thức cập nhật
   }
 
   Widget buildTextField(String labelText, String placeholder, IconData iconData,
@@ -61,7 +79,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          labelText, // Label for the TextField
+          labelText,
           style: const TextStyle(
             fontSize: 14,
             color: Colors.black,
@@ -72,13 +90,22 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           onTap: onTap,
           child: AbsorbPointer(
             child: TextField(
+              controller: (labelText == 'Tên')
+                  ? _nameController
+                  : (labelText == 'Ngày sinh (dd/mm/yyyy)')
+                      ? _dobController
+                      : (labelText == 'Email')
+                          ? _emailController
+                          : (labelText == 'Số điện thoại')
+                              ? _phoneController
+                              : null,
               maxLines: maxLines,
               keyboardType: keyboardType,
               decoration: InputDecoration(
                 hintText: placeholder,
                 prefixIcon: Icon(iconData),
                 border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(5), // Đổi thành số cụ thể
+                  borderRadius: BorderRadius.circular(5),
                 ),
                 filled: true,
                 fillColor: Colors.white,

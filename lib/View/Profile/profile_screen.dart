@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/Profile/edit_profile_screen.dart';
+import 'package:flutter_application_1/View/profile/change_password.dart';
+import 'package:flutter_application_1/View/profile/edit_profile_screen.dart';
+import 'package:flutter_application_1/View/signup/login_screen.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -9,14 +12,78 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  // Hàm hiển thị Snackbar thông báo tính năng đang phát triển
+  void _showDevelopmentMessage(String feature) {
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text('$feature đang được phát triển!'),
+        duration: const Duration(seconds: 2),
+      ),
+    );
+  }
+
+  // Hàm hiển thị BottomSheet cho cài đặt
+  void _showSettingsBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
+      builder: (BuildContext context) {
+        return Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Wrap(
+            children: [
+              ListTile(
+                leading: const Icon(Icons.info_outline),
+                title: const Text("Thông tin ứng dụng"),
+                onTap: () {
+                  Navigator.pop(context); // Đóng BottomSheet
+                  _showDevelopmentMessage("Thông tin ứng dụng");
+                },
+              ),
+              const Divider(),
+              ListTile(
+                leading: const Icon(Icons.lock_outline),
+                title: const Text("Đổi mật khẩu"),
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const ChangePasswordScreen()),
+                  );
+                },
+              ),
+            ],
+          ),
+        );
+      },
+    );
+  }
+
+  // Hàm đăng xuất
+  Future<void> _logout(BuildContext context) async {
+    final prefs = await SharedPreferences.getInstance();
+
+    // Xóa thông tin người dùng đã lưu
+    await prefs.remove('accessToken');
+    await prefs.remove('userId');
+
+    // Điều hướng về trang đăng nhập
+    Navigator.of(context).pushReplacement(
+      MaterialPageRoute(
+        builder: (context) => const LoginScreen(),
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SizedBox(
-          height: MediaQuery.of(context).size.height *
-              0.93, // Điều chỉnh chiều cao nếu cần
+          height: MediaQuery.of(context).size.height * 0.93,
           width: double.maxFinite,
           child: Stack(
             children: [
@@ -71,80 +138,79 @@ class _ProfileScreenState extends State<ProfileScreen> {
                         ),
                         Padding(
                           padding: const EdgeInsets.only(left: 20.0, right: 20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white, // Màu nền trắng
-                              borderRadius: BorderRadius.circular(10), // Bo góc
-                              border: Border.all(
-                                color: Colors.grey.withOpacity(0.5), // Màu viền
-                                width: 1, // Độ dày viền
+                          child: Column(
+                            children: [
+                              ListTile(
+                                title: const Text("Profile"),
+                                leading: const Icon(Icons.person),
+                                trailing: IconButton(
+                                  icon: const Icon(
+                                    Icons.arrow_forward_ios,
+                                    size: 12,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            const EditProfileScreen(),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                contentPadding: const EdgeInsets.only(
+                                    left: 15,
+                                    right: 7), // Đẩy icon và chữ sang trái
                               ),
-                            ),
-                            child: Column(
-                              children: [
-                                ListTile(
-                                  title: const Text("Profile"),
-                                  leading: const Icon(Icons.person),
-                                  trailing: IconButton(
-                                    icon: const Icon(
-                                      Icons.arrow_forward_ios,
-                                      size: 12,
-                                    ),
-                                    onPressed: () {
-                                      Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const EditProfileScreen()),
-                                      );
-                                    },
-                                  ), // Mũi tên chỉ về hướng phải
+                              // Sát icon với viền
+
+                              ListTile(
+                                title: const Text("Privacy Policy"),
+                                leading: const Icon(Icons.security_outlined),
+                                trailing: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 12,
                                 ),
-                                const ListTile(
-                                  title: Text("Privacy Policy"),
-                                  leading: Icon(Icons.security_outlined),
-                                  trailing: Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 12,
-                                  ), // Mũi tên chỉ về hướng phải
+                                onTap: () {
+                                  _showDevelopmentMessage("Privacy Policy");
+                                },
+                              ),
+                              ListTile(
+                                title: const Text("Report"),
+                                leading: const Icon(Icons.report_gmailerrorred),
+                                trailing: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 12,
                                 ),
-                                const ListTile(
-                                  title: Text("Share"),
-                                  leading: Icon(Icons.share),
-                                  trailing: Icon(
-                                    Icons.arrow_forward_ios,
-                                    size: 12,
-                                  ), // Mũi tên chỉ về hướng phải
+                                onTap: () {
+                                  _showDevelopmentMessage("Report");
+                                },
+                              ),
+                              ListTile(
+                                title: const Text("Settings"),
+                                leading: const Icon(Icons.settings),
+                                trailing: const Icon(
+                                  Icons.arrow_forward_ios,
+                                  size: 12,
                                 ),
-                              ],
-                            ),
+                                onTap: () {
+                                  _showSettingsBottomSheet(context);
+                                },
+                              ),
+                              ListTile(
+                                title: const Text("Log out",
+                                    style: TextStyle(color: Colors.red)),
+                                leading: const Icon(
+                                  Icons.logout,
+                                  color: Colors.red,
+                                ),
+                                onTap: () {
+                                  _logout(context);
+                                },
+                              ),
+                            ],
                           ),
                         ),
-                        Padding(
-                          padding: const EdgeInsets.only(
-                              top: 120.0, left: 20, right: 20),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius:
-                                  BorderRadius.circular(2), // Bo tròn các góc
-                              border: Border.all(
-                                color: Colors.grey.withOpacity(0.5), // Màu viền
-                                width: 1, // Độ dày viền
-                              ),
-                            ),
-                            child: const ListTile(
-                              title: Text(
-                                "Log out",
-                                style: TextStyle(color: Colors.red),
-                              ),
-                              leading: Icon(
-                                Icons.logout,
-                                color: Colors.red,
-                              ),
-                            ),
-                          ),
-                        )
                       ],
                     ),
                   ),

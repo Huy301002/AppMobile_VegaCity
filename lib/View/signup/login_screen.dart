@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/Home_Screen.dart';
+import 'package:flutter_application_1/View/signup/forgetpassword_screen.dart';
 import 'package:flutter_application_1/core/component/dialog/loading_dialog.dart';
 import 'package:flutter_application_1/core/theme/app_color.dart';
 import 'package:flutter_application_1/entry_point.dart';
+import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 import 'package:animate_do/animate_do.dart';
+import 'package:flutter_application_1/auth/auth_service.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -13,8 +17,7 @@ class LoginScreen extends StatefulWidget {
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  String validEmail = "Dandi@gmail.com";
-  String validPassword = "12345";
+  final AuthService _authService = AuthService();
 
   /// input form controller
   FocusNode emailFocusNode = FocusNode();
@@ -22,6 +25,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   FocusNode passwordFocusNode = FocusNode();
   TextEditingController passwordController = TextEditingController();
+
+  bool _isObscure = true; // Trạng thái ẩn/hiện mật khẩu
 
   /// rive controller and input
   StateMachineController? controller;
@@ -55,9 +60,84 @@ class _LoginScreenState extends State<LoginScreen> {
     isHandsUp?.change(passwordFocusNode.hasFocus);
   }
 
+  void togglePasswordVisibility() {
+    setState(() {
+      _isObscure = !_isObscure;
+      // Khi mật khẩu được hiển thị, đặt isHandsUp thành false
+      isHandsUp?.change(_isObscure);
+    });
+  }
+
+  Future<void> _login() async {
+    try {
+      final email = emailController.text;
+      final password = passwordController.text;
+
+      if (email.isEmpty || password.isEmpty) {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Lỗi"),
+            content: const Text("Tài khoản hoặc mật khẩu không được để trống."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          ),
+        );
+        return;
+      }
+
+      // Gọi dịch vụ đăng nhập
+      final result = await _authService.login(email, password);
+
+      // Kiểm tra kết quả đăng nhập dựa trên token
+      if (result.containsKey('token')) {
+        print('Đăng nhập thành công');
+        Get.offNamed('/Home');
+      } else {
+        showDialog(
+          context: context,
+          builder: (context) => AlertDialog(
+            title: const Text("Lỗi"),
+            content: const Text("Tài khoản hoặc mật khẩu không chính xác."),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text("OK"),
+              ),
+            ],
+          ),
+        );
+      }
+    } catch (e) {
+      print('Đăng nhập thất bại: $e');
+      showDialog(
+        context: context,
+        builder: (context) => AlertDialog(
+          title: const Text("Lỗi"),
+          content: const Text("Đăng nhập thất bại. Vui lòng thử lại."),
+          actions: [
+            TextButton(
+              onPressed: () {
+                Navigator.pop(context);
+              },
+              child: const Text("OK"),
+            ),
+          ],
+        ),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
-    print("Build Called Again");
     return Scaffold(
       backgroundColor: const Color(0xFFD6E2EA),
       resizeToAvoidBottomInset: true,
@@ -76,7 +156,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                // child: Image(image: imageAsset('assets/logo.png')),
               ),
             ),
             const SizedBox(height: 32),
@@ -160,92 +239,78 @@ class _LoginScreenState extends State<LoginScreen> {
                       child: TextField(
                         focusNode: passwordFocusNode,
                         controller: passwordController,
-                        decoration: const InputDecoration(
+                        obscureText: _isObscure,
+                        decoration: InputDecoration(
                           border: InputBorder.none,
                           hintText: "Password",
+                          suffixIcon: IconButton(
+                            icon: Icon(
+                              _isObscure
+                                  ? Icons.visibility_off
+                                  : Icons.visibility,
+                            ),
+                            onPressed: togglePasswordVisibility,
+                          ),
                         ),
-                        obscureText: true,
                         style: Theme.of(context).textTheme.bodyMedium,
                         onChanged: (value) {},
                       ),
                     ),
                     const SizedBox(height: 32),
                     SizedBox(
-                        width: MediaQuery.of(context).size.width,
-                        height: 64,
-                        child: MaterialButton(
-                          minWidth: double.infinity,
-                          color: const Color.fromARGB(255, 30, 144, 255),
-                          height: 60,
-                          onPressed: () async {
-                            emailFocusNode.unfocus();
-                            passwordFocusNode.unfocus();
+                      width: MediaQuery.of(context).size.width,
+                      height: 64,
+                      child: MaterialButton(
+                        minWidth: double.infinity,
+                        color: const Color.fromARGB(255, 30, 144, 255),
+                        height: 60,
+                        onPressed: () async {
+                          emailFocusNode.unfocus();
+                          passwordFocusNode.unfocus();
 
-                            final email = emailController.text;
-                            final password = passwordController.text;
-
-                            if (email.isEmpty || password.isEmpty) {
-                              showDialog(
-                                context: context,
-                                builder: (context) => AlertDialog(
-                                  title: const Text("Error"),
-                                  content: const Text(
-                                      "Account or password cannot be empty."),
-                                  actions: [
-                                    TextButton(
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                      child: const Text("OK"),
-                                    ),
-                                  ],
-                                ),
-                              );
-                            } else {
-                              showLoadingDialog(context);
-                              await Future.delayed(
-                                const Duration(milliseconds: 2000),
-                              );
-                              if (mounted) Navigator.pop(context);
-
-                              if (email == validEmail &&
-                                  password == validPassword) {
-                                trigSuccess?.change(true);
-                                Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) => const EntryPoint()),
-                                );
-                              } else {
-                                trigFail?.change(true);
-                                showDialog(
-                                  context: context,
-                                  builder: (context) => AlertDialog(
-                                    title: const Text("Error"),
-                                    content: const Text(
-                                        "Account or password is incorrect."),
-                                    actions: [
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.pop(context);
-                                        },
-                                        child: const Text("OK"),
-                                      ),
-                                    ],
-                                  ),
-                                );
-                              }
-                            }
-                          },
-                          shape: RoundedRectangleBorder(
-                              side: const BorderSide(color: Colors.black),
-                              borderRadius: BorderRadius.circular(5)),
-                          child: const Text(
-                            "Login",
-                            style: TextStyle(
-                                fontWeight: FontWeight.w600, fontSize: 18),
+                          // // Gọi phương thức _login để xử lý logic đăng nhập
+                          await _login();
+                          // Navigator.push(
+                          //   context,
+                          //   MaterialPageRoute(
+                          //       builder: (context) => const EntryPoint()),
+                          // );
+                        },
+                        shape: RoundedRectangleBorder(
+                            side: const BorderSide(color: Colors.black),
+                            borderRadius: BorderRadius.circular(5)),
+                        child: const Text(
+                          "Login",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 18,
                           ),
-                        )),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    SizedBox(
+                      child: InkWell(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) =>
+                                    const ForgetPasswordScreen()),
+                          );
+                        },
+                        child: const Text(
+                          "Forgot password?",
+                          style: TextStyle(
+                            fontWeight: FontWeight.w600,
+                            fontSize: 14,
+                            decoration: TextDecoration.underline,
+                            decorationColor: Colors.blue,
+                            color: Colors.blue, // Đổi màu chữ nếu cần
+                          ),
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ),

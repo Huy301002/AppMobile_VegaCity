@@ -90,7 +90,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                         fontWeight: FontWeight.bold)),
                                 SizedBox(height: 10),
                                 Text('1.000.000 VND',
-                                    style: TextStyle(fontSize: 12)),
+                                    style: TextStyle(fontSize: 16)),
                               ],
                             ),
                           ),
@@ -120,7 +120,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                       fontWeight: FontWeight.bold)),
                               SizedBox(height: 10),
                               Text('1.800.000 VND',
-                                  style: TextStyle(fontSize: 12)),
+                                  style: TextStyle(fontSize: 16)),
                             ],
                           ),
                         ),
@@ -163,7 +163,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                   const SizedBox(height: 10),
                                   const Text(
                                     '5.0',
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                   const SizedBox(
                                       height:
@@ -200,7 +200,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                   const SizedBox(height: 10),
                                   const Text(
                                     '4.0',
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                   const SizedBox(
                                       height:
@@ -237,7 +237,7 @@ class _StatisticsScreenState extends State<StatisticsScreen>
                                   const SizedBox(height: 10),
                                   const Text(
                                     '1.0',
-                                    style: TextStyle(fontSize: 12),
+                                    style: TextStyle(fontSize: 16),
                                   ),
                                   const SizedBox(height: 10),
                                   Container(

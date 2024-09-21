@@ -29,6 +29,13 @@ class _PackageScreenState extends State<PackageScreen> {
     'Giảm 25% áp dụng cho mọi chương trình trong dịp hè',
   ];
 
+  final List<String> comboPrices = [
+    '\100đ',
+    '\80đ',
+    '\120đ',
+    '\25đ',
+  ];
+
   String selectedFilter = 'All'; // Bộ lọc mặc định
 
   List<int> getFilteredIndexes() {
@@ -42,6 +49,205 @@ class _PackageScreenState extends State<PackageScreen> {
       return [3];
     }
     return [];
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    List<int> filteredIndexes = getFilteredIndexes();
+
+    return Scaffold(
+      backgroundColor: Colors.white,
+      appBar: AppBar(
+        backgroundColor: const Color.fromARGB(255, 30, 144, 255),
+        title: const Text(
+          'Package',
+          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        centerTitle: true,
+        leading: Container(),
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              Container(
+                height: 50,
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedFilter = 'All';
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: selectedFilter == 'All'
+                              ? Colors.white
+                              : Colors.blue, // Màu chữ
+                          backgroundColor: selectedFilter == 'All'
+                              ? Colors.blue
+                              : Colors.white, // Màu nền
+                          side: BorderSide(
+                            color: selectedFilter == 'All'
+                                ? Colors.blue
+                                : Colors.grey,
+                          ),
+                        ),
+                        child: Text('All'),
+                      ),
+                      const SizedBox(width: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedFilter = 'Khô';
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: selectedFilter == 'Khô'
+                              ? Colors.white
+                              : Colors.blue, // Màu chữ
+                          backgroundColor: selectedFilter == 'Khô'
+                              ? Colors.blue
+                              : Colors.white, // Màu nền
+                          side: BorderSide(
+                            color: selectedFilter == 'Khô'
+                                ? Colors.blue
+                                : Colors.grey,
+                          ),
+                        ),
+                        child: Text('Khô'),
+                      ),
+                      const SizedBox(width: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedFilter = 'Nước';
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: selectedFilter == 'Nước'
+                              ? Colors.white
+                              : Colors.blue, // Màu chữ
+                          backgroundColor: selectedFilter == 'Nước'
+                              ? Colors.blue
+                              : Colors.white, // Màu nền
+                          side: BorderSide(
+                            color: selectedFilter == 'Nước'
+                                ? Colors.blue
+                                : Colors.grey,
+                          ),
+                        ),
+                        child: Text('Nước'),
+                      ),
+                      const SizedBox(width: 8),
+                      OutlinedButton(
+                        onPressed: () {
+                          setState(() {
+                            selectedFilter = 'Khuyến mãi khác';
+                          });
+                        },
+                        style: OutlinedButton.styleFrom(
+                          foregroundColor: selectedFilter == 'Khuyến mãi khác'
+                              ? Colors.white
+                              : Colors.blue, // Màu chữ
+                          backgroundColor: selectedFilter == 'Khuyến mãi khác'
+                              ? Colors.blue
+                              : Colors.white, // Màu nền
+                          side: BorderSide(
+                            color: selectedFilter == 'Khuyến mãi khác'
+                                ? Colors.blue
+                                : Colors.grey,
+                          ),
+                        ),
+                        child: Text('Khuyến mãi khác'),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              const SizedBox(height: 16),
+              GridView.builder(
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    crossAxisSpacing: 10,
+                    mainAxisSpacing: 10,
+                    childAspectRatio: 0.7),
+                itemCount: filteredIndexes.length,
+                itemBuilder: (context, index) {
+                  int actualIndex = filteredIndexes[index];
+                  return GestureDetector(
+                    onTap: () {
+                      _showDetailsDialog(context, actualIndex);
+                    },
+                    child: Card(
+                      color: Colors.white,
+                      elevation: 4,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Container(
+                            height: 150,
+                            width: double.infinity,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(8),
+                              child: Image.network(
+                                imageUrls[actualIndex],
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: Column(
+                              children: [
+                                Text(
+                                  comboTitles[actualIndex],
+                                  style: const TextStyle(
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 4),
+                                Text(
+                                  '${comboDetails[actualIndex].split('\n').first}...',
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  textAlign: TextAlign.center,
+                                ),
+                                const SizedBox(height: 8),
+                                Text(
+                                  comboPrices[actualIndex],
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.red,
+                                  ),
+                                  textAlign: TextAlign.center,
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
   void _showDetailsDialog(BuildContext context, int index) {
@@ -77,18 +283,18 @@ class _PackageScreenState extends State<PackageScreen> {
                       borderRadius: BorderRadius.circular(5),
                     ),
                     child: ElevatedButton(
+                      onPressed: () {
+                        // Navigator.of(context).pop(); // Đóng dialog
+                        // _showBookingBottomSheet(context, index);
+                      },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
                         shadowColor: Colors.transparent,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
                       ),
-                      onPressed: () {
-                        Navigator.pop(context); // Đóng hộp thoại hiện tại
-                        _showBookingBottomSheet(context);
-                      },
-                      child: const Text('Đặt ngay'),
+                      child: const Text(
+                        'General E-tag',
+                        style: TextStyle(fontSize: 16, color: Colors.white),
+                      ),
                     ),
                   ),
                 ],
@@ -100,211 +306,57 @@ class _PackageScreenState extends State<PackageScreen> {
     );
   }
 
-  void _showBookingBottomSheet(BuildContext context) {
-    showModalBottomSheet(
-      context: context,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(5),
-      ),
-      builder: (BuildContext context) {
-        return Container(
-          padding: const EdgeInsets.all(16),
-          height: 450,
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              DropdownButtonFormField<String>(
-                decoration: const InputDecoration(
-                  labelText: 'Zone',
-                  border: OutlineInputBorder(),
-                ),
-                items: ['Zone A', 'Zone B', 'Zone C'].map((String zone) {
-                  return DropdownMenuItem<String>(
-                    value: zone,
-                    child: Text(zone),
-                  );
-                }).toList(),
-                onChanged: (String? newValue) {
-                  print(newValue);
-                },
-                validator: (value) {
-                  if (value == null || value.isEmpty) {
-                    return 'Please select a zone';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 16),
-              const Text(
-                'Chọn Zone để biết thêm chi tiết!',
-                style: TextStyle(fontSize: 16),
-              ),
-            ],
-          ),
-        );
-      },
-    );
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    List<int> filteredIndexes = getFilteredIndexes();
-
-    return Scaffold(
-      backgroundColor: Colors.white,
-      appBar: AppBar(
-        backgroundColor: const Color.fromARGB(255, 30, 144, 255),
-        title: const Text(
-          'Package',
-          style: TextStyle(
-            color: Colors.white,
-          ),
-        ),
-        centerTitle: true,
-        leading: Container(),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Column(
-            children: [
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = 'All';
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: selectedFilter == 'All'
-                          ? const Color.fromARGB(255, 30, 144, 255)
-                          : Colors.white,
-                      foregroundColor:
-                          selectedFilter == 'All' ? Colors.white : Colors.black,
-                    ),
-                    child: const Text('All'),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = 'Nước';
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: selectedFilter == 'Nước'
-                          ? const Color.fromARGB(255, 30, 144, 255)
-                          : Colors.white,
-                      foregroundColor: selectedFilter == 'Nước'
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    child: const Text('Nước'),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = 'Khô';
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: selectedFilter == 'Khô'
-                          ? const Color.fromARGB(255, 30, 144, 255)
-                          : Colors.white,
-                      foregroundColor:
-                          selectedFilter == 'Khô' ? Colors.white : Colors.black,
-                    ),
-                    child: const Text('Khô'),
-                  ),
-                  OutlinedButton(
-                    onPressed: () {
-                      setState(() {
-                        selectedFilter = 'Khuyến mãi khác';
-                      });
-                    },
-                    style: OutlinedButton.styleFrom(
-                      backgroundColor: selectedFilter == 'Khuyến mãi khác'
-                          ? const Color.fromARGB(255, 30, 144, 255)
-                          : Colors.white,
-                      foregroundColor: selectedFilter == 'Khuyến mãi khác'
-                          ? Colors.white
-                          : Colors.black,
-                    ),
-                    child: const Text('Khuyến mãi'),
-                  ),
-                ],
-              ),
-              const SizedBox(height: 16),
-              Column(
-                children: filteredIndexes.map((index) {
-                  return GestureDetector(
-                    onTap: () {
-                      _showDetailsDialog(context, index);
-                    },
-                    child: Container(
-                      margin: const EdgeInsets.only(
-                          bottom: 16), // Thêm khoảng cách dưới mỗi card
-                      child: Card(
-                        elevation: 4,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Row(
-                          children: [
-                            Expanded(
-                              flex: 3,
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: const BorderRadius.horizontal(
-                                      left: Radius.circular(10)),
-                                  image: DecorationImage(
-                                    image: NetworkImage(imageUrls[index]),
-                                    fit: BoxFit.cover,
-                                  ),
-                                ),
-                                height: 150, // Chiều cao hình ảnh
-                              ),
-                            ),
-                            Expanded(
-                              flex: 5,
-                              child: Padding(
-                                padding: const EdgeInsets.all(8.0),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Text(
-                                      comboTitles[index],
-                                      style: const TextStyle(
-                                        fontSize: 16,
-                                        fontWeight: FontWeight.bold,
-                                      ),
-                                    ),
-                                    const SizedBox(height: 8),
-                                    Text(
-                                      comboDetails[index],
-                                      maxLines: 3, // Hiển thị tối đa 3 dòng
-                                      overflow: TextOverflow
-                                          .ellipsis, // Hiển thị ... nếu có nhiều hơn 3 dòng
-                                      style: const TextStyle(
-                                        fontSize: 14,
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                  );
-                }).toList(),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
+  // void _showBookingBottomSheet(BuildContext context, int index) {
+  //   showModalBottomSheet(
+  //     context: context,
+  //     isScrollControlled: true,
+  //     shape: const RoundedRectangleBorder(
+  //       borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+  //     ),
+  //     builder: (BuildContext context) {
+  //       return Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+  //         child: Wrap(
+  //           children: [
+  //             Row(
+  //               mainAxisAlignment: MainAxisAlignment.spaceBetween,
+  //               children: [
+  //                 Text(
+  //                   comboTitles[index],
+  //                   style: const TextStyle(
+  //                       fontSize: 20, fontWeight: FontWeight.bold),
+  //                 ),
+  //                 IconButton(
+  //                   onPressed: () {
+  //                     Navigator.pop(context);
+  //                   },
+  //                   icon: const Icon(Icons.close),
+  //                 ),
+  //               ],
+  //             ),
+  //             const SizedBox(height: 10),
+  //             Text(
+  //               comboDetails[index],
+  //               style: const TextStyle(fontSize: 16),
+  //             ),
+  //             const SizedBox(height: 20),
+  //             ElevatedButton(
+  //               onPressed: () {
+  //                 // Thêm logic xử lý đặt E-tag
+  //                 Navigator.pop(context);
+  //               },
+  //               style: ElevatedButton.styleFrom(
+  //                 padding: const EdgeInsets.symmetric(vertical: 15),
+  //                 backgroundColor: Colors.blue,
+  //               ),
+  //               child: const Center(
+  //                 child: Text('Book Now', style: TextStyle(fontSize: 18)),
+  //               ),
+  //             ),
+  //           ],
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
 }

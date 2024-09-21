@@ -46,7 +46,13 @@ dependencies:
   image_picker: ^1.1.2
   fl_chart: ^0.69.0
   pie_chart: ^5.4.0
-  bar_chart: ^1.0.0+1
+  flutter_polyline_points: ^2.1.0
+  google_maps_flutter: ^2.9.0
+  flutter_svg: ^2.0.10+1
+  dio: ^5.7.0
+  fluttertoast: ^8.2.8
+  shared_preferences: ^2.3.2
+  intl: ^0.19.0
    
 
 dev_dependencies:

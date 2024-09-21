@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/Profile/profile_screen.dart';
+import 'package:flutter_application_1/View/profile/profile_screen.dart';
 import 'package:flutter_application_1/View/Scanner_Qr/scanner_screen.dart';
 import 'package:flutter_application_1/View/history/history_screen.dart';
 import 'package:flutter_application_1/View/home_screen.dart';
 import 'package:flutter_application_1/View/package_screen.dart';
 
 class EntryPoint extends StatefulWidget {
-  const EntryPoint({super.key});
+  final int selectedIndex;
+
+  const EntryPoint({super.key, this.selectedIndex = 0});
 
   @override
   State<EntryPoint> createState() => _EntryPointState();
 }
 
 class _EntryPointState extends State<EntryPoint> {
-  int _selectedIndex = 0;
+  late int _selectedIndex;
 
   // Danh sách các trang tương ứng với từng nút
   static final List<Widget> _screens = [
@@ -23,6 +25,12 @@ class _EntryPointState extends State<EntryPoint> {
     const HistoryScreen(),
     const ProfileScreen(),
   ];
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedIndex = widget.selectedIndex; // Đặt chỉ mục được chọn từ tham số
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -67,12 +75,6 @@ class _EntryPointState extends State<EntryPoint> {
             duration: const Duration(milliseconds: 200),
             height: 36,
             width: 36,
-            // decoration: BoxDecoration(
-            //   color: _selectedIndex == index
-            //       ? Color.fromARGB(255, 30, 144, 255).withOpacity(0.2)
-            //       : Colors.transparent,
-            //   shape: BoxShape.circle,
-            // ),
             child: Icon(
               icon,
               size: 30,

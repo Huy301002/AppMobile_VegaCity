@@ -15,9 +15,10 @@ class _HistoryScreenState extends State<HistoryScreen> {
       appBar: AppBar(
         backgroundColor: const Color.fromARGB(255, 30, 144, 255),
         title: const Text(
-          'Hoạt động',
+          'Lịch sử',
           style: TextStyle(
             color: Colors.white,
+            fontWeight: FontWeight.bold,
           ),
         ),
         centerTitle: true,

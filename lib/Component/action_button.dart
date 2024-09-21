@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/dasboard/statistics_screen.dart';
+import 'package:flutter_application_1/View/transfer/transfer_screen.dart';
 
 class ActionButtons extends StatelessWidget {
   const ActionButtons({super.key});
@@ -58,8 +59,10 @@ class ActionButtons extends StatelessWidget {
               icon: Icons.attach_money,
               label: 'Transfer',
               onPressed: () {
-                _showUnderDevelopmentDialog(context);
-                // Navigator.push(context, MaterialPageRoute(builder: (context)=> const TransferMoney()));
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TransferScreen()),
+                );
               },
             ),
             ActionButton(
@@ -71,7 +74,7 @@ class ActionButtons extends StatelessWidget {
             ),
             ActionButton(
               icon: Icons.bar_chart,
-              label: 'Statistics',
+              label: 'Dashboard',
               onPressed: () {
                 Navigator.push(
                   context,

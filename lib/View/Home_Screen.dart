@@ -1,6 +1,7 @@
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Component/action_button.dart';
+import 'package:flutter_application_1/entry_point.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -30,6 +31,7 @@ class _HomeScreenState extends State<HomeScreen> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
+              // Header
               Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
@@ -48,7 +50,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             style: TextStyle(color: Colors.black),
                           ),
                           Text(
-                            "Veigar",
+                            "Huy",
                             style: TextStyle(
                                 color: Colors.black,
                                 fontSize: 20,
@@ -66,6 +68,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
+              // Carousel Slider
               Center(
                 child: Column(
                   children: [
@@ -93,6 +96,7 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
+                    const SizedBox(height: 30),
                     buildCarouselIndicator(),
                   ],
                 ),
@@ -101,38 +105,43 @@ class _HomeScreenState extends State<HomeScreen> {
               Stack(
                 children: [
                   Container(
-                    margin: const EdgeInsets.only(top: 20),
+                    margin: const EdgeInsets.only(top: 10),
                     child: const Column(
                       children: [
-                        ActionButtons(), // Nút hành động
+                        ActionButtons(),
                         SizedBox(height: 30),
-                        // Danh sách giao dịch
                       ],
                     ),
                   ),
                 ],
               ),
+              // Tiêu đề Packages
               Container(
-                margin: const EdgeInsets.only(left: 40, right: 30),
+                margin: const EdgeInsets.only(left: 35, right: 35),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const Text(
-                      "Packages",
+                      "Packages new",
                       style: TextStyle(
-                        fontSize: 20,
+                        fontSize: 16,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
                     GestureDetector(
                       onTap: () {
-                        // Thêm hành động khi bấm vào "See All"
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  EntryPoint(selectedIndex: 1)),
+                        );
                       },
                       child: const Text(
                         "See All",
                         style: TextStyle(
                           fontSize: 16,
-                          color: Colors.blue, // Màu chữ "See All"
+                          color: Colors.blue,
                           fontWeight: FontWeight.normal,
                         ),
                       ),
@@ -140,26 +149,30 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
               ),
-
-              const SizedBox(height: 20),
-              // Thêm phần card lớn xếp chồng bên dưới Carousel
+              const SizedBox(height: 30),
+              // GridView cho card
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16.0),
-                child: Column(
-                  children: [
-                    buildCard(
-                      "Combo trọn gói",
-                      'https://images.unsplash.com/photo-1520342868574-5fa3804e551c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=6ff92caffcdd63681a35134a6770ed3b&auto=format&fit=crop&w=1951&q=80',
-                    ),
-                    buildCard(
-                      "Combo vui chơi khô",
-                      'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80',
-                    ),
-                    buildCard(
-                      "Combo vui chơi nước",
-                      'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
-                    ),
-                  ],
+                padding: const EdgeInsets.only(top: 16.0, left: 18, right: 18),
+                child: GridView.builder(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2, // Số cột
+                    crossAxisSpacing: 8, // Khoảng cách giữa các cột
+                    mainAxisSpacing: 10, // Khoảng cách giữa các hàng
+                    childAspectRatio: 1, // Tỷ lệ khung hình
+                  ),
+                  itemCount: 4, // Số lượng card
+                  itemBuilder: (context, index) {
+                    return buildCard(
+                      index == 0
+                          ? "Combo trọn gói"
+                          : index == 1
+                              ? "Combo vui chơi khô"
+                              : "Combo vui chơi nước",
+                      imgList[index],
+                    );
+                  },
                 ),
               ),
             ],
@@ -171,12 +184,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Widget buildCard(String title, String imageUrl) {
     return Container(
-      width: 340, // Đặt chiều rộng của card cho toàn màn hình
-      margin: const EdgeInsets.only(
-          bottom: 16, left: 20), // Khoảng cách giữa các card
+      width: 160,
+      height: 160,
+      margin: const EdgeInsets.all(8),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(10),
+        borderRadius: BorderRadius.circular(5),
         boxShadow: const [
           BoxShadow(
             color: Colors.black26,
@@ -185,44 +198,30 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
         ],
       ),
-      child: Row(
+      child: Column(
         children: [
           ClipRRect(
             borderRadius: const BorderRadius.only(
-              topLeft: Radius.circular(10),
-              bottomLeft: Radius.circular(10),
+              topLeft: Radius.circular(5),
+              topRight: Radius.circular(5),
             ),
             child: Image.network(
               imageUrl,
-              width: 120, // Đặt chiều rộng cho hình ảnh
-              height: 120, // Đặt chiều cao cho hình ảnh
+              width: double.infinity,
+              height: 120,
               fit: BoxFit.cover,
             ),
           ),
-          Expanded(
-            child: Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: const TextStyle(
-                      color: Colors.black,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                  const SizedBox(
-                      height: 8), // Khoảng cách giữa title và description
-                  const Text(
-                    "This is a description of the card. It can be multiple lines.",
-                    style: TextStyle(
-                      color: Colors.grey,
-                      fontSize: 14,
-                    ),
-                  ),
-                ],
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Align(
+              alignment: Alignment.centerLeft,
+              child: Text(
+                title,
+                style: const TextStyle(
+                  color: Colors.black,
+                  fontSize: 14,
+                ),
               ),
             ),
           ),
