@@ -30,7 +30,7 @@ class _SplashScreenState extends State<SplashScreen>
     _controller.forward();
 
     Timer(
-      Duration(seconds: 4),
+      const Duration(seconds: 4),
       () {
         Get.offNamed('/welcome');
       },
@@ -51,7 +51,7 @@ class _SplashScreenState extends State<SplashScreen>
         child: FadeTransition(
           opacity: _animation,
           child: Image.asset(
-            'assets/images/Logo.png',
+            'assets/Logo.png',
             width: 500,
             height: 500,
           ),
