@@ -22,11 +22,11 @@ class _EntryPointState extends State<EntryPoint> {
 
   // Danh sách các trang tương ứng với từng nút
   static final List<Widget> _screens = [
-    const HomeScreen(),
-    const PackageScreen(),
-    const ScannerScreen(),
-    const HistoryScreen(),
-    const ProfileScreen(),
+    HomeScreen(),
+    PackageScreen(),
+    ScannerScreen(),
+    HistoryScreen(),
+    ProfileScreen(),
   ];
 
   @override
