@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/Home_Screen.dart';
+import 'package:flutter_application_1/View/home/Home_Screen.dart';
 import 'package:flutter_application_1/View/signup/forgetpassword_screen.dart';
 import 'package:flutter_application_1/core/component/dialog/loading_dialog.dart';
 import 'package:flutter_application_1/core/theme/app_color.dart';

@@ -2,9 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/View/signup/login_screen.dart'; // Màn hình login
 import 'package:flutter_application_1/View/profile/profile_screen.dart';
-import 'package:flutter_application_1/View/Scanner_Qr/scanner_screen.dart';
+import 'package:flutter_application_1/View/scanner_Qr/scanner_screen.dart';
 import 'package:flutter_application_1/View/history/history_screen.dart';
-import 'package:flutter_application_1/View/home_screen.dart';
+import 'package:flutter_application_1/View/home/Home_Screen.dart';
 import 'package:flutter_application_1/View/package_screen.dart';
 
 class EntryPoint extends StatefulWidget {

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/Scanner_Qr/scanner_result.dart';
+import 'package:flutter_application_1/View/scanner_Qr/scanner_result.dart';
 import 'package:mobile_scanner/mobile_scanner.dart';
 import 'package:qr_scanner_overlay/qr_scanner_overlay.dart';
 
