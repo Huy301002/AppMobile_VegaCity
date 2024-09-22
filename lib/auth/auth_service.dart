@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/config.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthService {
   final Dio _dio;
@@ -20,9 +21,41 @@ class AuthService {
       // Check if the response status code is 200
       if (response['statusCode'] == 200) {
         final data = response['data'];
+
+        // Extract the necessary data with correct keys
+        final String? accessToken =
+            data['accessToken']; // Changed from 'token' to 'accessToken'
+        final String? refreshToken =
+            data['refreshToken']; // Correct key for refreshToken
+        final String? userId = data['userId']; // Correct key for userId
+
+        // Check if accessToken and userId are not null, throw an exception if they are
+        if (accessToken == null || userId == null) {
+          throw Exception('Missing accessToken or userId in the response');
+        }
+
+        // Save accessToken and refreshToken to local storage (if not null)
+        SharedPreferences prefs = await SharedPreferences.getInstance();
+        await prefs.setString('accessToken', accessToken);
+        if (refreshToken != null) {
+          await prefs.setString('refreshToken', refreshToken);
+        }
+        // In ra kết quả để kiểm tra xem đã lưu thành công chưa
+        print('Access Token: ${prefs.getString('accessToken')}');
+        print('Refresh Token: ${prefs.getString('refreshToken')}');
+
+        // Đảm bảo hiển thị thành công khi token đã tồn tại
+        if (accessToken != null && userId != null) {
+          print('Login successful');
+        } else {
+          print('Login failed');
+        }
+
+        // Return the relevant information
         return {
-          'token': data['token'],
-          'user': data['user'],
+          'accessToken': accessToken,
+          'refreshToken': refreshToken,
+          'userId': userId,
         };
       } else {
         throw Exception(

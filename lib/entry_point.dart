@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/View/signup/login_screen.dart'; // Màn hình login
 import 'package:flutter_application_1/View/profile/profile_screen.dart';
 import 'package:flutter_application_1/View/Scanner_Qr/scanner_screen.dart';
 import 'package:flutter_application_1/View/history/history_screen.dart';
@@ -16,11 +18,12 @@ class EntryPoint extends StatefulWidget {
 
 class _EntryPointState extends State<EntryPoint> {
   late int _selectedIndex;
+  bool isAuthenticated = false; // Biến kiểm tra xác thực
 
   // Danh sách các trang tương ứng với từng nút
   static final List<Widget> _screens = [
     const HomeScreen(),
-    PackageScreen(),
+    const PackageScreen(),
     const ScannerScreen(),
     const HistoryScreen(),
     const ProfileScreen(),
@@ -30,10 +33,34 @@ class _EntryPointState extends State<EntryPoint> {
   void initState() {
     super.initState();
     _selectedIndex = widget.selectedIndex; // Đặt chỉ mục được chọn từ tham số
+    _checkAuthentication(); // Kiểm tra xác thực
+  }
+
+  // Hàm kiểm tra xác thực
+  Future<void> _checkAuthentication() async {
+    final prefs = await SharedPreferences.getInstance();
+    bool authenticated =
+        prefs.getBool('authenticated') ?? false; // Lấy giá trị xác thực
+    setState(() {
+      isAuthenticated = authenticated;
+    });
+
+    if (!authenticated) {
+      // Nếu chưa xác thực, chuyển hướng về màn hình đăng nhập
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(builder: (context) => const LoginScreen()),
+      );
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    if (!isAuthenticated) {
+      // Trường hợp chưa xác thực, không render giao diện EntryPoint
+      return const SizedBox.shrink();
+    }
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: _screens[_selectedIndex],
@@ -42,8 +69,9 @@ class _EntryPointState extends State<EntryPoint> {
           padding: const EdgeInsets.all(12),
           margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 2),
           decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
-              borderRadius: const BorderRadius.all(Radius.circular(24))),
+            color: Colors.white.withOpacity(0.8),
+            borderRadius: const BorderRadius.all(Radius.circular(24)),
+          ),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
