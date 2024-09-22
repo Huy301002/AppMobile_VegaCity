@@ -24,9 +24,9 @@ class _EntryPointState extends State<EntryPoint> {
   static final List<Widget> _screens = [
     HomeScreen(),
     PackageScreen(),
-    ScannerScreen(),
+    // ScannerScreen(),
     HistoryScreen(),
-    ProfileScreen(),
+    // ProfileScreen(),
   ];
 
   @override
