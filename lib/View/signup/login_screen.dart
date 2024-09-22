@@ -95,10 +95,11 @@ class _LoginScreenState extends State<LoginScreen> {
       // Gọi dịch vụ đăng nhập
       final result = await _authService.login(email, password);
 
-      // Kiểm tra kết quả đăng nhập dựa trên token
-      if (result.containsKey('token')) {
+      // Kiểm tra kết quả đăng nhập dựa trên accessToken
+      if (result.containsKey('accessToken')) {
         print('Đăng nhập thành công');
-        Get.offNamed('/Home');
+        Get.offNamed(
+            '/Home'); // Chuyển đến trang Home sau khi đăng nhập thành công
       } else {
         showDialog(
           context: context,

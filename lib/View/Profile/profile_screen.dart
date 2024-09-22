@@ -67,6 +67,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
     // Xóa thông tin người dùng đã lưu
     await prefs.remove('accessToken');
+    await prefs.remove('refreshToken');
     await prefs.remove('userId');
 
     // Điều hướng về trang đăng nhập
