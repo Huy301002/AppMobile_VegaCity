@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/View/signup/login_screen.dart';
-// import 'package:flutter_application_1/View/profile/profile_screen.dart';
-// import 'package:flutter_application_1/View/scanner_qr/scanner_screen.dart';
+import 'package:flutter_application_1/View/profile/profile_screen.dart';
+import 'package:flutter_application_1/View/scanner_qr/scanner_screen.dart';
 import 'package:flutter_application_1/View/history/history_screen.dart';
 import 'package:flutter_application_1/View/home/Home_Screen.dart';
 import 'package:flutter_application_1/View/package_screen.dart';
@@ -24,46 +24,58 @@ class _EntryPointState extends State<EntryPoint> {
   static final List<Widget> _screens = [
     HomeScreen(),
     PackageScreen(),
-    // ScannerScreen(),
+    ScannerScreen(),
     HistoryScreen(),
-    // ProfileScreen(),
+    ProfileScreen(),
   ];
 
   @override
   void initState() {
     super.initState();
-    _selectedIndex = widget.selectedIndex; // Đặt chỉ mục được chọn từ tham số
-    _checkAuthentication(); // Kiểm tra xác thực
+    _selectedIndex = widget.selectedIndex; // Thiết lập selectedIndex ban đầu
+    _checkAuthentication(); // Kiểm tra xác thực khi bắt đầu
   }
 
   // Hàm kiểm tra xác thực
   Future<void> _checkAuthentication() async {
-    final prefs = await SharedPreferences.getInstance();
-    bool authenticated =
-        prefs.getBool('authenticated') ?? false; // Lấy giá trị xác thực
-    setState(() {
-      isAuthenticated = authenticated;
-    });
-
-    if (!authenticated) {
-      // Nếu chưa xác thực, chuyển hướng về màn hình đăng nhập
-      Navigator.pushReplacement(
-        context,
-        MaterialPageRoute(builder: (context) => const LoginScreen()),
-      );
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    final String? accessToken = prefs.getString('accessToken');
+    if (accessToken != null && accessToken.isNotEmpty) {
+      setState(() {
+        isAuthenticated = true; // Đã xác thực thành công
+      });
+    } else {
+      _navigateToLogin(); // Điều hướng đến màn hình đăng nhập nếu không có accessToken
     }
+  }
+
+  void _navigateToLogin() {
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(builder: (context) => const LoginScreen()),
+    );
+  }
+
+  // Phương thức chuyển đổi giữa các trang
+  void _onItemTapped(int index) {
+    setState(() {
+      _selectedIndex = index;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     if (!isAuthenticated) {
-      // Trường hợp chưa xác thực, không render giao diện EntryPoint
-      return const SizedBox.shrink();
+      // Hiển thị vòng tròn tải khi chưa xác thực xong
+      return const Scaffold(
+        body: Center(child: CircularProgressIndicator()),
+      );
     }
 
     return Scaffold(
       backgroundColor: Colors.white,
-      body: _screens[_selectedIndex],
+      body: _screens[
+          _selectedIndex], // Hiển thị màn hình tương ứng với selectedIndex
       bottomNavigationBar: SafeArea(
         child: Container(
           padding: const EdgeInsets.all(12),
@@ -90,11 +102,7 @@ class _EntryPointState extends State<EntryPoint> {
   // Hàm xây dựng icon với hiệu ứng AnimatedContainer
   GestureDetector buildIcon(IconData icon, String title, int index) {
     return GestureDetector(
-      onTap: () {
-        setState(() {
-          _selectedIndex = index;
-        });
-      },
+      onTap: () => _onItemTapped(index), // Gọi phương thức khi icon được nhấn
       child: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -127,6 +135,7 @@ class _EntryPointState extends State<EntryPoint> {
   }
 }
 
+// Widget AnimatedBar dùng để tạo hiệu ứng thanh dưới icon
 class AnimatedBar extends StatelessWidget {
   const AnimatedBar({super.key, required this.isActive});
 
