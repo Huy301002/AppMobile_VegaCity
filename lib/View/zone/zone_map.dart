@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:flutter_application_1/auth/auth_service.dart';
 
 class MapScreen extends StatefulWidget {
   @override
@@ -8,11 +9,29 @@ class MapScreen extends StatefulWidget {
 
 class _MapScreenState extends State<MapScreen> {
   late GoogleMapController mapController;
+  List<Map<String, dynamic>> zones = [];
+  final AuthService authService = AuthService();
 
-  // Vị trí cho từng zone (điều chỉnh tọa độ theo ý muốn)
-  final LatLng zoneALocation = LatLng(21.0285, 105.804);
-  final LatLng zoneBLocation = LatLng(21.005, 105.847);
-  final LatLng zoneCLocation = LatLng(21.033, 105.839);
+  @override
+  void initState() {
+    super.initState();
+    _fetchZones();
+  }
+
+  Future<void> _fetchZones() async {
+    try {
+      final response = await authService.getZones();
+      if (response.containsKey('error')) {
+        print('Error fetching zones: ${response['error']}');
+      } else {
+        setState(() {
+          zones = List<Map<String, dynamic>>.from(response['data']);
+        });
+      }
+    } catch (e) {
+      print('Error fetching zones: $e');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,13 +44,18 @@ class _MapScreenState extends State<MapScreen> {
           padding: const EdgeInsets.all(10.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              _buildZoneSection('Zone A', zoneALocation),
-              const SizedBox(height: 20),
-              _buildZoneSection('Zone B', zoneBLocation),
-              const SizedBox(height: 20),
-              _buildZoneSection('Zone C', zoneCLocation),
-            ],
+            children: zones.isNotEmpty
+                ? zones.map((zone) {
+                    final String title = zone['name']; // Lấy tên khu vực
+                    final LatLng location = LatLng(
+                      zone['latitude'] ?? 0.0, // Lấy latitude từ API
+                      zone['longitude'] ?? 0.0, // Lấy longitude từ API
+                    );
+                    return _buildZoneSection(title, location);
+                  }).toList()
+                : [
+                    const CircularProgressIndicator()
+                  ], // Hiển thị loader khi chưa có dữ liệu
           ),
         ),
       ),

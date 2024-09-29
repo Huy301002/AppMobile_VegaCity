@@ -16,7 +16,7 @@ class QRResult extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Colors.amber.shade900,
+        backgroundColor: Color.fromARGB(255, 30, 144, 255),
         title: const Text(
           'Scanner Result',
           style: TextStyle(
@@ -29,7 +29,8 @@ class QRResult extends StatelessWidget {
         leading: IconButton(
           style: ButtonStyle(
             iconSize: WidgetStatePropertyAll(30),
-            iconColor: WidgetStatePropertyAll(Colors.amber.shade900),
+            iconColor:
+                WidgetStatePropertyAll(Color.fromARGB(255, 30, 144, 255)),
             backgroundColor: WidgetStatePropertyAll(Colors.white70),
           ),
           onPressed: () {

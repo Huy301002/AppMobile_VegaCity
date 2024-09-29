@@ -1,13 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_application_1/View/home/Home_Screen.dart';
 import 'package:flutter_application_1/View/signup/forgetpassword_screen.dart';
-import 'package:flutter_application_1/core/component/dialog/loading_dialog.dart';
 import 'package:flutter_application_1/core/theme/app_color.dart';
-import 'package:flutter_application_1/entry_point.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 import 'package:animate_do/animate_do.dart';
 import 'package:flutter_application_1/auth/auth_service.dart';
+import 'package:shared_preferences/shared_preferences.dart'; // Import SharedPreferences
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -19,22 +17,18 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final AuthService _authService = AuthService();
 
-  /// input form controller
   FocusNode emailFocusNode = FocusNode();
   TextEditingController emailController = TextEditingController();
 
   FocusNode passwordFocusNode = FocusNode();
   TextEditingController passwordController = TextEditingController();
 
-  bool _isObscure = true; // Trạng thái ẩn/hiện mật khẩu
+  bool _isObscure = true;
 
-  /// rive controller and input
   StateMachineController? controller;
-
   SMIInput<bool>? isChecking;
   SMIInput<double>? numLook;
   SMIInput<bool>? isHandsUp;
-
   SMIInput<bool>? trigSuccess;
   SMIInput<bool>? trigFail;
 
@@ -63,7 +57,6 @@ class _LoginScreenState extends State<LoginScreen> {
   void togglePasswordVisibility() {
     setState(() {
       _isObscure = !_isObscure;
-      // Khi mật khẩu được hiển thị, đặt isHandsUp thành false
       isHandsUp?.change(_isObscure);
     });
   }
@@ -73,68 +66,56 @@ class _LoginScreenState extends State<LoginScreen> {
       final email = emailController.text;
       final password = passwordController.text;
 
+      // Check for empty fields
       if (email.isEmpty || password.isEmpty) {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text("Lỗi"),
-            content: const Text("Tài khoản hoặc mật khẩu không được để trống."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("OK"),
-              ),
-            ],
-          ),
-        );
+        _showErrorDialog("Tài khoản hoặc mật khẩu không được để trống.");
         return;
       }
 
-      // Gọi dịch vụ đăng nhập
+      // Call login method from AuthService
       final result = await _authService.login(email, password);
 
-      // Kiểm tra kết quả đăng nhập dựa trên accessToken
+      // Check if the login was successful
       if (result.containsKey('accessToken')) {
-        print('Đăng nhập thành công');
-        Get.offNamed(
-            '/Home'); // Chuyển đến trang Home sau khi đăng nhập thành công
+        // Save tokens and user ID to SharedPreferences
+        final prefs = await SharedPreferences.getInstance();
+        await prefs.setString('token', result['accessToken']);
+        await prefs.setString('userId', result['userId']);
+
+        // Log the saved values for debugging
+        print('Token đã lưu: ${prefs.getString('token')}');
+        print('User ID đã lưu: ${prefs.getString('userId')}');
+
+        // Navigate to Home screen
+        Get.offNamed('/Home');
       } else {
-        showDialog(
-          context: context,
-          builder: (context) => AlertDialog(
-            title: const Text("Lỗi"),
-            content: const Text("Tài khoản hoặc mật khẩu không chính xác."),
-            actions: [
-              TextButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                child: const Text("OK"),
-              ),
-            ],
-          ),
-        );
+        // Show error message if login failed
+        _showErrorDialog(
+            result['error'] ?? "Tài khoản hoặc mật khẩu không chính xác.");
       }
     } catch (e) {
       print('Đăng nhập thất bại: $e');
-      showDialog(
-        context: context,
-        builder: (context) => AlertDialog(
-          title: const Text("Lỗi"),
-          content: const Text("Đăng nhập thất bại. Vui lòng thử lại."),
-          actions: [
-            TextButton(
-              onPressed: () {
-                Navigator.pop(context);
-              },
-              child: const Text("OK"),
-            ),
-          ],
-        ),
-      );
+      _showErrorDialog("Đăng nhập thất bại. Vui lòng thử lại.");
     }
+  }
+
+// Helper method to show error dialogs
+  void _showErrorDialog(String message) {
+    showDialog(
+      context: context,
+      builder: (context) => AlertDialog(
+        title: const Text("Lỗi"),
+        content: Text(message),
+        actions: [
+          TextButton(
+            onPressed: () {
+              Navigator.pop(context);
+            },
+            child: const Text("OK"),
+          ),
+        ],
+      ),
+    );
   }
 
   @override
@@ -268,14 +249,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () async {
                           emailFocusNode.unfocus();
                           passwordFocusNode.unfocus();
-
-                          // // Gọi phương thức _login để xử lý logic đăng nhập
                           await _login();
-                          // Navigator.push(
-                          //   context,
-                          //   MaterialPageRoute(
-                          //       builder: (context) => const EntryPoint()),
-                          // );
                         },
                         shape: RoundedRectangleBorder(
                             side: const BorderSide(color: Colors.black),
@@ -300,16 +274,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                     const ForgetPasswordScreen()),
                           );
                         },
-                        child: const Text(
-                          "Forgot password?",
-                          style: TextStyle(
-                            fontWeight: FontWeight.w600,
-                            fontSize: 14,
-                            decoration: TextDecoration.underline,
-                            decorationColor: Colors.blue,
-                            color: Colors.blue, // Đổi màu chữ nếu cần
-                          ),
-                        ),
+                        child: const Text("Forgot Password?"),
                       ),
                     ),
                   ],

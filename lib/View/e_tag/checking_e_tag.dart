@@ -94,11 +94,47 @@ class _CheckUserCardScreenState extends State<CheckUserCardScreen> {
                   user['name']!.toLowerCase().contains(searchQuery);
             }).toList();
 
-            return UserCard(
-              name: filteredUsers[index]['name']!,
-              birthdate: filteredUsers[index]['birthdate']!,
-              hometown: filteredUsers[index]['hometown']!,
-              imageUrl: filteredUsers[index]['image'] ?? '', // Thay đổi ở đây
+            return GestureDetector(
+              onTap: () {
+                // Hiển thị popup chi tiết người dùng
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          const SizedBox(height: 50),
+                          Image.network(filteredUsers[index]['image'] ?? '',
+                              height: 100, width: 100, fit: BoxFit.cover),
+                          const SizedBox(height: 10),
+                          Text(filteredUsers[index]['name']!,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold, fontSize: 16)),
+                          Text(
+                              'Ngày sinh: ${filteredUsers[index]['birthdate']}'),
+                          Text('Quê quán: ${filteredUsers[index]['hometown']}'),
+                        ],
+                      ),
+                      actions: [
+                        TextButton(
+                          onPressed: () {
+                            Navigator.of(context).pop();
+                          },
+                          child: const Text('Đóng'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+              child: UserCard(
+                name: filteredUsers[index]['name']!,
+                birthdate: filteredUsers[index]['birthdate']!,
+                hometown: filteredUsers[index]['hometown']!,
+                imageUrl: filteredUsers[index]['image'] ?? '', // Thay đổi ở đây
+              ),
             );
           },
         ),

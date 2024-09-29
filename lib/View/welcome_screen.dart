@@ -53,7 +53,7 @@ class WelcomeScreen extends StatelessWidget {
                       duration: const Duration(milliseconds: 1500),
                       child: MaterialButton(
                         minWidth: double.infinity,
-                        color: Colors.blue[300],
+                        color: const Color.fromARGB(255, 30, 144, 255),
                         height: 60,
                         onPressed: () {
                           Navigator.push(

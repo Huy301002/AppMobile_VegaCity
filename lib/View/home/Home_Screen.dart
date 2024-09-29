@@ -2,6 +2,8 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Component/action_button.dart';
 import 'package:flutter_application_1/entry_point.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/auth/auth_service.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
@@ -19,6 +21,53 @@ class _HomeScreenState extends State<HomeScreen> {
     'https://images.unsplash.com/photo-1508704019882-f9cf40e475b4?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=8c6e5e3aba713b17aa1fe71ab4f0ae5b&auto=format&fit=crop&w=1352&q=80',
     'https://images.unsplash.com/photo-1519985176271-adb1088fa94c?ixlib=rb-0.3.5&ixid=eyJhcHBfaWQiOjEyMDd9&s=a0c8d632e977f94e5d312d9893258f59&auto=format&fit=crop&w=1355&q=80'
   ];
+
+  String userName = '';
+
+  AuthService authService = AuthService(); // Khởi tạo đối tượng
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserInfo();
+  }
+
+  Future<void> _fetchUserInfo() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? userId = prefs.getString('userId');
+
+      if (userId != null) {
+        print('Found userId: $userId'); // Log the found userId
+
+        // Fetch user info using the AuthService
+        final userInfo = await authService.getUserInfo(userId);
+
+        // Check for errors in the response
+        if (userInfo.containsKey('error')) {
+          print('Error fetching user info: ${userInfo['error']}');
+          return; // Exit the function if there's an error
+        }
+
+        // Extract the user data safely
+        final user = userInfo['data']['user'];
+        if (user != null) {
+          setState(() {
+            userName =
+                user['fullName'] ?? 'N/A'; // Set userName or default to 'N/A'
+          });
+          print('User info fetched successfully: $user'); // Log the user info
+        } else {
+          print('Error: userInfo does not contain expected data');
+        }
+      } else {
+        print(
+            'No userId found in SharedPreferences'); // Log if userId is not found
+      }
+    } catch (e) {
+      print('Error fetching user info: $e'); // Log any errors encountered
+    }
+  }
 
   int _currentPage = 0;
 
@@ -41,20 +90,23 @@ class _HomeScreenState extends State<HomeScreen> {
                       radius: 30,
                     ),
                     const SizedBox(width: 16),
-                    const Expanded(
+                    Expanded(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             "Welcome Back!",
                             style: TextStyle(color: Colors.black),
                           ),
                           Text(
-                            "Huy",
-                            style: TextStyle(
-                                color: Colors.black,
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold),
+                            userName.split(' ').last, // Tách và lấy từ đầu tiên
+                            style: const TextStyle(
+                              color: Colors.black,
+                              fontSize: 12,
+                              fontWeight: FontWeight.bold,
+                            ),
+                            overflow: TextOverflow.ellipsis,
+                            maxLines: 1,
                           ),
                         ],
                       ),

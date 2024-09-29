@@ -3,6 +3,7 @@ import 'package:flutter_application_1/View/profile/change_password.dart';
 import 'package:flutter_application_1/View/profile/edit_profile_screen.dart';
 import 'package:flutter_application_1/View/signup/login_screen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_application_1/auth/auth_service.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -12,6 +13,55 @@ class ProfileScreen extends StatefulWidget {
 }
 
 class _ProfileScreenState extends State<ProfileScreen> {
+  String userName = '';
+  String userEmail = '';
+  String userPhone = '';
+
+  AuthService authService = AuthService(); // Khởi tạo đối tượng
+
+  @override
+  void initState() {
+    super.initState();
+    _fetchUserInfo();
+  }
+
+  Future<void> _fetchUserInfo() async {
+    try {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      String? userId = prefs.getString('userId');
+
+      if (userId != null) {
+        print('Found userId: $userId'); // Log the found userId
+
+        // Fetch user info using the AuthService
+        final userInfo = await authService.getUserInfo(userId);
+
+        // Check for errors in the response
+        if (userInfo.containsKey('error')) {
+          print('Error fetching user info: ${userInfo['error']}');
+          return; // Exit the function if there's an error
+        }
+
+        // Extract the user data safely
+        final user = userInfo['data']['user'];
+        if (user != null) {
+          setState(() {
+            userName =
+                user['fullName'] ?? 'N/A'; // Set userName or default to 'N/A'
+          });
+          print('User info fetched successfully: $user'); // Log the user info
+        } else {
+          print('Error: userInfo does not contain expected data');
+        }
+      } else {
+        print(
+            'No userId found in SharedPreferences'); // Log if userId is not found
+      }
+    } catch (e) {
+      print('Error fetching user info: $e'); // Log any errors encountered
+    }
+  }
+
   // Hàm hiển thị Snackbar thông báo tính năng đang phát triển
   void _showDevelopmentMessage(String feature) {
     ScaffoldMessenger.of(context).showSnackBar(
@@ -121,13 +171,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     padding: const EdgeInsets.only(top: 80),
                     child: Column(
                       children: [
-                        const Text("Veigar",
-                            style: TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.bold,
-                            )),
-                        const Text("mycity, mystate"),
-                        const Text("+1234567890"),
+                        Text(
+                          userName,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        Text(userEmail),
+                        Text(userPhone),
                         const SizedBox(height: 8),
                         const Padding(
                           padding: EdgeInsets.only(
@@ -163,8 +215,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
                                     left: 15,
                                     right: 7), // Đẩy icon và chữ sang trái
                               ),
-                              // Sát icon với viền
-
                               ListTile(
                                 title: const Text("Privacy Policy"),
                                 leading: const Icon(Icons.security_outlined),
