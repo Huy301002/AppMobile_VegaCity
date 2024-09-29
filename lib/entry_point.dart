@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/View/signup/login_screen.dart';
-import 'View/profile/profile_screen.dart';
-import 'View/scanner_QR/scanner_screen.dart';
+// import 'View/profile/profile_screen.dart';
+// import 'View/scanner_QR/scanner_screen.dart';
 import 'package:flutter_application_1/View/history/history_screen.dart';
 import 'package:flutter_application_1/View/home/Home_Screen.dart';
 import 'package:flutter_application_1/View/package_screen.dart';
@@ -24,9 +24,9 @@ class _EntryPointState extends State<EntryPoint> {
   static final List<Widget> _screens = [
     HomeScreen(),
     PackageScreen(),
-    ScannerScreen(),
+    // ScannerScreen(),
     HistoryScreen(),
-    ProfileScreen(),
+    // ProfileScreen(),
   ];
 
   @override
