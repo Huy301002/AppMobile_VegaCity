@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/signup/forgetpassword_screen.dart';
 import 'package:flutter_application_1/core/theme/app_color.dart';
+import 'package:flutter_application_1/entry_point.dart';
 import 'package:get/get.dart';
 import 'package:rive/rive.dart';
 import 'package:animate_do/animate_do.dart';
@@ -247,9 +248,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         color: const Color.fromARGB(255, 30, 144, 255),
                         height: 60,
                         onPressed: () async {
-                          emailFocusNode.unfocus();
-                          passwordFocusNode.unfocus();
-                          await _login();
+                          // emailFocusNode.unfocus();
+                          // passwordFocusNode.unfocus();
+                          // await _login();
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                                builder: (context) => const EntryPoint()),
+                          );
                         },
                         shape: RoundedRectangleBorder(
                             side: const BorderSide(color: Colors.black),

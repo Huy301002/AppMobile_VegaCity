@@ -1,5 +1,4 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_application_1/utils/config.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

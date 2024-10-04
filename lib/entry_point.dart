@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:flutter_application_1/View/signup/login_screen.dart';
-// import 'View/profile/profile_screen.dart';
-// import 'View/scanner_QR/scanner_screen.dart';
+import 'View/profile/profile_screen.dart';
+import 'View/scanner_QR/scanner_screen.dart';
 import 'package:flutter_application_1/View/history/history_screen.dart';
 import 'package:flutter_application_1/View/home/Home_Screen.dart';
 import 'package:flutter_application_1/View/package_screen.dart';
@@ -18,43 +18,43 @@ class EntryPoint extends StatefulWidget {
 
 class _EntryPointState extends State<EntryPoint> {
   late int _selectedIndex;
-  bool isAuthenticated = false; // Biến kiểm tra xác thực
+  // bool isAuthenticated = false; // Biến kiểm tra xác thực
 
   // Danh sách các trang tương ứng với từng nút
   static final List<Widget> _screens = [
     HomeScreen(),
     PackageScreen(),
-    // ScannerScreen(),
+    ScannerScreen(),
     HistoryScreen(),
-    // ProfileScreen(),
+    ProfileScreen(),
   ];
 
   @override
   void initState() {
     super.initState();
     _selectedIndex = widget.selectedIndex; // Thiết lập selectedIndex ban đầu
-    _checkAuthentication(); // Kiểm tra xác thực khi bắt đầu
+    //   _checkAuthentication(); // Kiểm tra xác thực khi bắt đầu
   }
 
   // Hàm kiểm tra xác thực
-  Future<void> _checkAuthentication() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    final String? accessToken = prefs.getString('accessToken');
-    if (accessToken != null && accessToken.isNotEmpty) {
-      setState(() {
-        isAuthenticated = true; // Đã xác thực thành công
-      });
-    } else {
-      _navigateToLogin(); // Điều hướng đến màn hình đăng nhập nếu không có accessToken
-    }
-  }
+  // Future<void> _checkAuthentication() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   final String? accessToken = prefs.getString('accessToken');
+  //   if (accessToken != null && accessToken.isNotEmpty) {
+  //     setState(() {
+  //       isAuthenticated = true; // Đã xác thực thành công
+  //     });
+  //   } else {
+  //     _navigateToLogin(); // Điều hướng đến màn hình đăng nhập nếu không có accessToken
+  //   }
+  // }
 
-  void _navigateToLogin() {
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(builder: (context) => const LoginScreen()),
-    );
-  }
+  // void _navigateToLogin() {
+  //   Navigator.pushReplacement(
+  //     context,
+  //     MaterialPageRoute(builder: (context) => const LoginScreen()),
+  //   );
+  // }
 
   // Phương thức chuyển đổi giữa các trang
   void _onItemTapped(int index) {
@@ -65,12 +65,12 @@ class _EntryPointState extends State<EntryPoint> {
 
   @override
   Widget build(BuildContext context) {
-    if (!isAuthenticated) {
-      // Hiển thị vòng tròn tải khi chưa xác thực xong
-      return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
-      );
-    }
+    // if (!isAuthenticated) {
+    //   // Hiển thị vòng tròn tải khi chưa xác thực xong
+    //   return const Scaffold(
+    //     body: Center(child: CircularProgressIndicator()),
+    //   );
+    // }
 
     return Scaffold(
       backgroundColor: Colors.white,

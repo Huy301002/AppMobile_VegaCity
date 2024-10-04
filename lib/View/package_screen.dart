@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/View/transfer/transfer_screen.dart';
 
 class PackageScreen extends StatefulWidget {
   const PackageScreen({Key? key}) : super(key: key);
@@ -16,7 +17,7 @@ class _PackageScreenState extends State<PackageScreen> {
   ];
 
   final List<String> comboTitles = [
-    'Combo vui chơi nước',
+    'Combo chơi nước',
     'Combo vui chơi khô',
     'Combo trọn gói',
     'Combo hè thả ga',
@@ -177,7 +178,7 @@ class _PackageScreenState extends State<PackageScreen> {
                     crossAxisCount: 2,
                     crossAxisSpacing: 10,
                     mainAxisSpacing: 10,
-                    childAspectRatio: 0.7),
+                    childAspectRatio: 0.65),
                 itemCount: filteredIndexes.length,
                 itemBuilder: (context, index) {
                   int actualIndex = filteredIndexes[index];
@@ -284,8 +285,11 @@ class _PackageScreenState extends State<PackageScreen> {
                     ),
                     child: ElevatedButton(
                       onPressed: () {
-                        // Navigator.of(context).pop(); // Đóng dialog
-                        // _showBookingBottomSheet(context, index);
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const TransferScreen()),
+                        );
                       },
                       style: ElevatedButton.styleFrom(
                         backgroundColor: Colors.transparent,
