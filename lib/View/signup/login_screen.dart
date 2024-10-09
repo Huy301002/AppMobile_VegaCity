@@ -62,62 +62,62 @@ class _LoginScreenState extends State<LoginScreen> {
     });
   }
 
-  Future<void> _login() async {
-    try {
-      final email = emailController.text;
-      final password = passwordController.text;
+  // Future<void> _login() async {
+  //   try {
+  //     final email = emailController.text;
+  //     final password = passwordController.text;
 
-      // Check for empty fields
-      if (email.isEmpty || password.isEmpty) {
-        _showErrorDialog("Tài khoản hoặc mật khẩu không được để trống.");
-        return;
-      }
+  //     // Check for empty fields
+  //     if (email.isEmpty || password.isEmpty) {
+  //       _showErrorDialog("Tài khoản hoặc mật khẩu không được để trống.");
+  //       return;
+  //     }
 
-      // Call login method from AuthService
-      final result = await _authService.login(email, password);
+  //     // Call login method from AuthService
+  //     final result = await _authService.login(email, password);
 
-      // Check if the login was successful
-      if (result.containsKey('accessToken')) {
-        // Save tokens and user ID to SharedPreferences
-        final prefs = await SharedPreferences.getInstance();
-        await prefs.setString('token', result['accessToken']);
-        await prefs.setString('userId', result['userId']);
+  //     // Check if the login was successful
+  //     if (result.containsKey('accessToken')) {
+  //       // Save tokens and user ID to SharedPreferences
+  //       final prefs = await SharedPreferences.getInstance();
+  //       await prefs.setString('token', result['accessToken']);
+  //       await prefs.setString('userId', result['userId']);
 
-        // Log the saved values for debugging
-        print('Token đã lưu: ${prefs.getString('token')}');
-        print('User ID đã lưu: ${prefs.getString('userId')}');
+  //       // Log the saved values for debugging
+  //       print('Token đã lưu: ${prefs.getString('token')}');
+  //       print('User ID đã lưu: ${prefs.getString('userId')}');
 
-        // Navigate to Home screen
-        Get.offNamed('/Home');
-      } else {
-        // Show error message if login failed
-        _showErrorDialog(
-            result['error'] ?? "Tài khoản hoặc mật khẩu không chính xác.");
-      }
-    } catch (e) {
-      print('Đăng nhập thất bại: $e');
-      _showErrorDialog("Đăng nhập thất bại. Vui lòng thử lại.");
-    }
-  }
+  //       // Navigate to Home screen
+  //       Get.offNamed('/Home');
+  //     } else {
+  //       // Show error message if login failed
+  //       _showErrorDialog(
+  //           result['error'] ?? "Tài khoản hoặc mật khẩu không chính xác.");
+  //     }
+  //   } catch (e) {
+  //     print('Đăng nhập thất bại: $e');
+  //     _showErrorDialog("Đăng nhập thất bại. Vui lòng thử lại.");
+  //   }
+  // }
 
 // Helper method to show error dialogs
-  void _showErrorDialog(String message) {
-    showDialog(
-      context: context,
-      builder: (context) => AlertDialog(
-        title: const Text("Lỗi"),
-        content: Text(message),
-        actions: [
-          TextButton(
-            onPressed: () {
-              Navigator.pop(context);
-            },
-            child: const Text("OK"),
-          ),
-        ],
-      ),
-    );
-  }
+  // void _showErrorDialog(String message) {
+  //   showDialog(
+  //     context: context,
+  //     builder: (context) => AlertDialog(
+  //       title: const Text("Lỗi"),
+  //       content: Text(message),
+  //       actions: [
+  //         TextButton(
+  //           onPressed: () {
+  //             Navigator.pop(context);
+  //           },
+  //           child: const Text("OK"),
+  //         ),
+  //       ],
+  //     ),
+  //   );
+  // }
 
   @override
   Widget build(BuildContext context) {

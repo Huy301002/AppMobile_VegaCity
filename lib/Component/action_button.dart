@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/View/dasboard/statistics_screen.dart';
+import 'package:flutter_application_1/View/map/map_screen.dart';
 import 'package:flutter_application_1/View/transfer/transfer_screen.dart';
 import 'package:flutter_application_1/View/e_tag/checking_e_tag.dart';
 import 'package:flutter_application_1/View/zone/zone_map.dart';
@@ -77,7 +78,7 @@ class ActionButtons extends StatelessWidget {
               onPressed: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context) => MapScreen()),
+                  MaterialPageRoute(builder: (context) => ZoneScreen()),
                 );
               },
             ),
